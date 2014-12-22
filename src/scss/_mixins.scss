@@ -1,0 +1,82 @@
+/* Mixins */
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin bp($point) {
+    @if $point == mobile {
+        @media (min-width: 480px) { @content; }
+    }
+    @else if $point == phablet {
+        @media (min-width: 540px) { @content; }
+    }
+    @else if $point == tablet {
+        @media (min-width: 768px) { @content; }
+    }
+    @else if $point == tablet-landscape {
+        @media (min-width: 1024px) { @content; }
+    }
+    @else if $point == desktop {
+        @media (min-width: 1280px) { @content; }
+    }
+}
+
+/* CSS3 */
+
+@mixin border-radius($radius: 5px) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+}
+@mixin box-sizing ($box: border-box) {
+    -webkit-box-sizing: $box;
+    -moz-box-sizing: $box;
+    box-sizing: $box;
+}
+@mixin transition($property: all, $time: 0.3, $ease: ease-in-out) {
+    // transition times
+    -moz-transition-duration: #{$time}s;
+    -webkit-transition-duration: #{$time}s;
+    transition-duration: #{$time}s;
+    // transition properties
+    -moz-transition-property: $property;
+    -webkit-transition-property: $property;
+    transition-property: $property;
+    // transition function
+    -moz-transition-timing-function: $ease;
+    -webkit-transition-timing-function: $ease;
+    transition-timing-function: $ease;
+}
+@function calculateRem($size) {
+    $remSize: $size / $base-font-size;
+    @return $remSize * 1rem;
+}
+@mixin font-size($size) {
+    font-size: $size;
+    font-size: calculateRem($size);
+}
+@mixin line-height($heightValue){
+    line-height: $heightValue; //fallback for old browsers
+    //line-height: (0.125 * $heightValue) + rem;
+    line-height: calculateRem($heightValue);
+}
