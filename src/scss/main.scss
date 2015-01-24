@@ -80,19 +80,19 @@ a {
         }
     }
 
-    a {
+    .hn-link {
         @include clearfix();
-        border-bottom: $default-border;
+        //border-bottom: $default-border;
         display: block;
         overflow: hidden;
-        padding: 1em 0;
+        padding: 1em 0 0 0;
         text-decoration: none;
 
         @include bp(phablet) {
             @include font-size(20px);
         }
         @include bp(tablet-landscape) {
-            padding: 1.5em 16px;
+            padding: 1.5em 16px 0;
         }
     }
 
@@ -132,6 +132,25 @@ a {
     .posted {
         color: $mid;
         display: block;
+        @include font-size(14px);
+        @include bp(phablet) {
+            @include font-size(16px);
+        }
+    }
+
+    .comments {
+        display: block;
+        border-bottom: $default-border;
+        margin-left: 40px;
+        padding: 0 0 1em 0;
+
+        @include bp(tablet-landscape) {
+            padding: 0 16px 1.5em;
+        }
+    }
+
+    .hn-comment {
+        text-decoration: none;
         @include font-size(14px);
         @include bp(phablet) {
             @include font-size(16px);

@@ -56,7 +56,18 @@ function makeLinkList($pages, $list) {
                     $subtext->find('a[href^="user?"]', 0)->innertext = '';
                 }
                 if ( !is_null($subtext->find('a[href^="item?"]', 0)) ) {
+                    $comment = $subtext->find('a[href^="item?"]', 0);
+                    if ($comment->innertext !== 'discuss') {
+                        $list[$i]['commentsText'] = $comment->innertext;
+                        $list[$i]['commentsHref'] = $baseUrl . $comment->href;
+                    } else {
+                        $list[$i]['commentsText'] = 'No comments';
+                        $list[$i]['commentsHref'] = '';
+                    }
                     $subtext->find('a[href^="item?"]', 0)->innertext = '';
+                } else {
+                    $list[$i]['commentsText'] = 'No comments';
+                    $list[$i]['commentsHref'] = '';
                 }
 
                 $posted = $subtext->plaintext;
@@ -77,11 +88,13 @@ function makeLinkList($pages, $list) {
             $text = $list[$i]['text'];
             $source = $list[$i]['source'];
             $posted = $list[$i]['posted'];
+            $commentsText = $list[$i]['commentsText'];
+            $commentsHref = $list[$i]['commentsHref'];
             $number = $i + 1;
 
             // Build news list item
             $html .= '<li>';
-            $html .= '<a href="' . $link . '">';
+            $html .= '<a class="hn-link" href="' . $link . '">';
             $html .= '<span class="count">' . $number . '</span>';
             $html .= '<div class="link-content">';
             $html .= '<span class="link-text">' . $text . '</span>';
@@ -89,6 +102,11 @@ function makeLinkList($pages, $list) {
             $html .= '<span class="posted">Posted: ' . $posted . '</span>';
             $html .= '</div>';
             $html .= '</a>';
+            if ($commentsHref !== '') {
+                $html .= '<span class="comments"><a class="hn-comment" href="' . $commentsHref . '">' . $commentsText . '</a></span>';
+            } else {
+                $html .= '<span class="comments">' . $commentsText . '</span>';
+            }
             $html .= '</li>';
         }
 
