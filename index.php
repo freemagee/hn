@@ -55,8 +55,17 @@ function makeLinkList($pages, $list) {
                 if ( !is_null($subtext->find('a[href^="user?"]', 0)) ) {
                     $subtext->find('a[href^="user?"]', 0)->innertext = '';
                 }
+                // Get posted time/date as string
                 if ( !is_null($subtext->find('a[href^="item?"]', 0)) ) {
-                    $comment = $subtext->find('a[href^="item?"]', 0);
+                    $posted = $subtext->find('a[href^="item?"]', 0);
+                    $list[$i]['posted'] = $posted->innertext;
+                } else {
+                    $posted = $subtext->innertext;
+                    $list[$i]['posted'] = $posted;
+                }
+                // Get comments as string and link
+                if ( !is_null($subtext->find('a[href^="item?"]', 1)) ) {
+                    $comment = $subtext->find('a[href^="item?"]', 1);
                     if ($comment->innertext !== 'discuss') {
                         $list[$i]['commentsText'] = $comment->innertext;
                         $list[$i]['commentsHref'] = $baseUrl . $comment->href;
@@ -70,10 +79,10 @@ function makeLinkList($pages, $list) {
                     $list[$i]['commentsHref'] = '';
                 }
 
-                $posted = $subtext->plaintext;
-                $posted = preg_replace('/(by)/', '', $posted);
-                $posted = preg_replace('/(\s\|)/', '', $posted);
-                $list[$i]['posted'] = trim($posted);
+                // $posted = $subtext->plaintext;
+                // $posted = preg_replace('/(by)/', '', $posted);
+                // $posted = preg_replace('/(\s\|)/', '', $posted);
+                // $list[$i]['posted'] = trim($posted);
                 $i++;
             }
         }
