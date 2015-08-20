@@ -20,6 +20,19 @@ h1 {
     color: $dark;
     margin: 0;
     padding: 0;
+
+    a {
+        text-decoration: $dark;
+        color: inherit;
+
+        &:visited {
+            color: $dark;
+        }
+
+        &:hover {
+            color: #fff;
+        }
+    }
 }
 a {
     color: $link;
@@ -163,12 +176,7 @@ a {
             background-color: white;
         }
     }
-    a:active {
-        .count {
-            color: $light;
-            background-color: $dark;
-        }
-    }
+
 }
 .footer-inner {
     text-align: center;

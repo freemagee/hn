@@ -142,7 +142,7 @@ function makeLinkList($pages, $list) {
         <div class="container">
 
             <header class="title">
-                <h1><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</h1>
+                <h1><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
             </header>
             <?php
             echo makeLinkList($pages, $linksList);
