@@ -7,6 +7,20 @@ $pages = array();
 $pages['page1'] = file_get_html('https://news.ycombinator.com/');
 $pages['page2'] = file_get_html('https://news.ycombinator.com/news?p=2');
 $linksList = array();
+$dir = dirname(__FILE__);
+$file = 'data.json';
+$filename = $dir . '/src/data/' . $file;
+
+/*******************************************************************************
+ * LOGIC
+ ******************************************************************************/
+
+if (file_exists($filename)) {
+    getLinkList($pages, $linksList);
+} else {
+    createFile($dir . '/src/data/', 'data', 'json');
+    getLinkList($pages, $linksList);
+}
 
 // **************************************************************************************
 // FUNCTIONS
@@ -23,13 +37,19 @@ function pre_r($val){
     echo  '</pre>';
 }
 
+function createFile($dir, $n, $xt) {
+    fopen($dir . $n . '.' . $xt, "w");
+}
+
 /**
  * [makeLinkList Create list of links plus relevent details]
  * @param  [array] $pages [description]
  * @param  [array] $list  [description]
  * @return string        [HTML UL list of links]
  */
-function makeLinkList($pages, $list) {
+function getList($pages, $list) {
+    global $dir;
+
     $i = 0;
     $baseUrl = 'https://news.ycombinator.com/';
 
@@ -79,81 +99,13 @@ function makeLinkList($pages, $list) {
                     $list[$i]['commentsHref'] = '';
                 }
 
-                // $posted = $subtext->plaintext;
-                // $posted = preg_replace('/(by)/', '', $posted);
-                // $posted = preg_replace('/(\s\|)/', '', $posted);
-                // $list[$i]['posted'] = trim($posted);
                 $i++;
             }
         }
     }
 
-    if (!empty($list)) {
-        $html = '<ul id="links-list">';
-        $limit = count($list);
+    $json_data = json_encode($list);
+    file_put_contents($dir . '/src/data/data.json', $json_data);
 
-        for ($i = 0; $i < $limit; $i++) {
-            $link = $list[$i]['href'];
-            $text = $list[$i]['text'];
-            $source = $list[$i]['source'];
-            $posted = $list[$i]['posted'];
-            $commentsText = $list[$i]['commentsText'];
-            $commentsHref = $list[$i]['commentsHref'];
-            $number = $i + 1;
-
-            // Build news list item
-            $html .= '<li>';
-            $html .= '<a class="hn-link" href="' . $link . '">';
-            $html .= '<span class="count">' . $number . '</span>';
-            $html .= '<div class="link-content">';
-            $html .= '<span class="link-text">' . $text . '</span>';
-            $html .= '<span class="source">' . $source . '</span>';
-            $html .= '<span class="posted">Posted: ' . $posted . '</span>';
-            $html .= '</div>';
-            $html .= '</a>';
-            if ($commentsHref !== '') {
-                $html .= '<span class="comments"><a class="hn-comment" href="' . $commentsHref . '">' . $commentsText . '</a></span>';
-            } else {
-                $html .= '<span class="comments">' . $commentsText . '</span>';
-            }
-            $html .= '</li>';
-        }
-
-        $html .= '</ul>';
-    } else {
-        $html = '<h3>No news!</h3><p>Unfortunately there has been an error. It will be sorted out shortly.</p>';
-    }
-
-    return $html;
 }
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Responsive Hacker News | Just the links, mobile device friendly</title>
-        <meta name="description" content="Just the links from Hacker News, optimised for small screens and mobile devices.">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" href="src/css/main.css">
-    </head>
-    <body>
-        <div class="container">
-
-            <header class="title">
-                <h1><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
-            </header>
-            <?php
-            echo makeLinkList($pages, $linksList);
-            ?>
-            <footer>
-                <div class="footer-inner">
-                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a><br />
-                    Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
-                </div>
-            </footer>
-
-        </div>
-    </body>
-</html>
