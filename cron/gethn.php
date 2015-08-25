@@ -1,4 +1,4 @@
-<?php require('src/inc/simple_html_dom.php');
+<?php require('../src/inc/simple_html_dom.php');
 
 // **************************************************************************************
 // VARIABLES
@@ -9,17 +9,17 @@ $pages['page2'] = file_get_html('https://news.ycombinator.com/news?p=2');
 $linksList = array();
 $dir = dirname(__FILE__);
 $file = 'data.json';
-$filename = $dir . '/src/data/' . $file;
+$filename = $dir . '/../src/data/' . $file;
 
 /*******************************************************************************
  * LOGIC
  ******************************************************************************/
 
 if (file_exists($filename)) {
-    getLinkList($pages, $linksList);
+    getList($pages, $linksList);
 } else {
-    createFile($dir . '/src/data/', 'data', 'json');
-    getLinkList($pages, $linksList);
+    createFile($dir . '/../src/data/', 'data', 'json');
+    getList($pages, $linksList);
 }
 
 // **************************************************************************************
@@ -105,7 +105,7 @@ function getList($pages, $list) {
     }
 
     $json_data = json_encode($list);
-    file_put_contents($dir . '/src/data/data.json', $json_data);
+    file_put_contents($dir . '/../src/data/data.json', $json_data);
 
 }
 ?>
