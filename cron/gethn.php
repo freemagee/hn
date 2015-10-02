@@ -1,111 +1,84 @@
-<?php require('../src/inc/simple_html_dom.php');
+<?php
+set_time_limit(60);
 
-// **************************************************************************************
-// VARIABLES
-// **************************************************************************************
-$pages = array();
-$pages['page1'] = file_get_html('https://news.ycombinator.com/');
-$pages['page2'] = file_get_html('https://news.ycombinator.com/news?p=2');
-$linksList = array();
+/*******************************************************************************
+ * VARIABLES
+ ******************************************************************************/
+
+$articles = [];
 $dir = dirname(__FILE__);
 $file = 'data.json';
 $filename = $dir . '/../src/data/' . $file;
+$top_list = '';
 
 /*******************************************************************************
  * LOGIC
  ******************************************************************************/
 
 if (file_exists($filename)) {
-    getList($pages, $linksList);
+    $top_list = get_list();
+    save_article_list($articles, $top_list, $dir);
 } else {
-    createFile($dir . '/../src/data/', 'data', 'json');
-    getList($pages, $linksList);
+    create_file($dir . '/../src/data/', 'data', 'json');
+    $top_list = get_list();
+    save_article_list($articles, $top_list, $dir);
 }
 
-// **************************************************************************************
-// FUNCTIONS
-// **************************************************************************************
+/*******************************************************************************
+ * FUNCTIONS
+ ******************************************************************************/
 
-/**
- * [pre_r pretty arrays]
- * @param  [array] $val [takes an array]
- * @return string      [returns an array wrapped in PRE tags]
- */
+function get_list() {
+    $list = file_get_contents('https://hacker-news.firebaseio.com/v0/topstories.json');
+    $list_obj = json_decode($list);
+    $list = object_to_array($list_obj);
+
+    return $list;
+}
+
+function save_article_list($output, $source, $dir) {
+    $count = 0;
+    $limit = 60;
+
+    for ($count; $count < $limit; $count++) {
+        $id = $source[$count];
+        $article = file_get_contents('https://hacker-news.firebaseio.com/v0/item/' . $id . '.json');
+        $article_obj = json_decode($article);
+        $output[] = object_to_array($article_obj);
+    }
+
+    $json_data = json_encode($output);
+    file_put_contents($dir . '/../src/data/data.json', $json_data);
+}
+
+function create_file($dir, $n, $xt) {
+    fopen($dir . $n . '.' . $xt, "w");
+}
+
 function pre_r($val){
     echo '<pre>';
     print_r($val);
     echo  '</pre>';
 }
 
-function createFile($dir, $n, $xt) {
-    fopen($dir . $n . '.' . $xt, "w");
-}
-
-/**
- * [makeLinkList Create list of links plus relevent details]
- * @param  [array] $pages [description]
- * @param  [array] $list  [description]
- * @return string        [HTML UL list of links]
- */
-function getList($pages, $list) {
-    global $dir;
-
-    $i = 0;
-    $baseUrl = 'https://news.ycombinator.com/';
-
-    foreach ($pages as $key) {
-        foreach($key->find('body table tbody tr:nth-child(3) table tbody td.title a') as $element) {
-            if( preg_match('/news\?p=/', $element->href) !== 1 ) {
-                if( preg_match('/item\?id=/', $element->href) !== 1 ) {
-                    $list[$i]['href'] = $element->href;
-                } else {
-                    $list[$i]['href'] = $baseUrl . $element->href;
-                }
-                $list[$i]['text'] = $element->text();
-                $span = $element->parent()->find('span.comhead', 0);
-                if ( !is_null($span) ) {
-                    $list[$i]['source'] = trim($span->plaintext);
-                } else {
-                    $list[$i]['source'] = '(Hacker News)';
-                }
-                $subtext = $element->parent()->parent()->next_sibling();
-                if ( !is_null($subtext->find('span[id^="score_"]', 0)) ) {
-                    $subtext->find('span[id^="score_"]', 0)->innertext = '';
-                }
-                if ( !is_null($subtext->find('a[href^="user?"]', 0)) ) {
-                    $subtext->find('a[href^="user?"]', 0)->innertext = '';
-                }
-                // Get posted time/date as string
-                if ( !is_null($subtext->find('a[href^="item?"]', 0)) ) {
-                    $posted = $subtext->find('a[href^="item?"]', 0);
-                    $list[$i]['posted'] = $posted->innertext;
-                } else {
-                    $posted = $subtext->innertext;
-                    $list[$i]['posted'] = $posted;
-                }
-                // Get comments as string and link
-                if ( !is_null($subtext->find('a[href^="item?"]', 1)) ) {
-                    $comment = $subtext->find('a[href^="item?"]', 1);
-                    if ($comment->innertext !== 'discuss') {
-                        $list[$i]['commentsText'] = $comment->innertext;
-                        $list[$i]['commentsHref'] = $baseUrl . $comment->href;
-                    } else {
-                        $list[$i]['commentsText'] = 'No comments';
-                        $list[$i]['commentsHref'] = '';
-                    }
-                    $subtext->find('a[href^="item?"]', 0)->innertext = '';
-                } else {
-                    $list[$i]['commentsText'] = 'No comments';
-                    $list[$i]['commentsHref'] = '';
-                }
-
-                $i++;
-            }
-        }
+function object_to_array($d) {
+    if (is_object($d)) {
+        // Gets the properties of the given object
+        // with get_object_vars function
+        $d = get_object_vars($d);
     }
 
-    $json_data = json_encode($list);
-    file_put_contents($dir . '/../src/data/data.json', $json_data);
-
+    if (is_array($d)) {
+        /*
+        * Return array converted to object
+        * Using __FUNCTION__ (Magic constant)
+        * for recursive call
+        */
+        return array_map(__FUNCTION__, $d);
+    }
+    else {
+        // Return array
+        return $d;
+    }
 }
 ?>

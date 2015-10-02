@@ -36,6 +36,7 @@ h1 {
 }
 a {
     color: $link;
+    outline: 0;
 
     &:visited {
         color: $link-visited;
@@ -122,8 +123,11 @@ a {
         display: block;
         font-family: $additional;
         font-style: italic;
+        padding-left: 0;
+
         @include bp(tablet-landscape) {
             display: inline;
+            padding-left: .5em;
         }
     }
 
