@@ -49,7 +49,7 @@ function get_list() {
  */
 function save_article_list($output, $source, $dir) {
     $count = 0;
-    $limit = 60;
+    $limit = 90;
     $ch = curl_init();
 
     for ($count; $count < $limit; $count++) {

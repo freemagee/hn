@@ -4,3 +4,4 @@
 .sass-cache/
 _archive/
 src/data/
+node_modules

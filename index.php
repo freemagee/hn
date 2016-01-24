@@ -30,7 +30,7 @@ function make_hn_list($source) {
                 $title = $source[$i]['title'];
                 if (preg_match("/Ask HN:/", $title)) {
                     $link = 'https://news.ycombinator.com/item?id=' . $id;
-                    $host_domain = 'news.ycombinator.com';
+                    $host_domain_short = 'news.ycombinator.com';
                 } else {
                     $link = $source[$i]['url'];
                     $source_url = parse_url($link);
@@ -154,4 +154,5 @@ function object_to_array($d) {
 
         </div>
     </body>
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </html>

@@ -1,0 +1,30 @@
+{
+  "name": "scss-compiler",
+  "version": "1.0.0",
+  "description": "Compile scss files to minified, autoprefixed css",
+  "main": "gulpfile.js",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-watch": "^4.3.5",
+    "livereload": "^0.4.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/freemagee/hn.git"
+  },
+  "author": "Neil Magee",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/freemagee/hn/issues"
+  },
+  "homepage": "https://github.com/freemagee/hn#readme"
+}
