@@ -38,8 +38,9 @@ function make_hn_list($source) {
                     $host_domain_short = str_replace('www.', '', $host_domain);
                 }
                 $delay = $source[$i]['time'];
-                if (!empty($source[$i]['kids'])) {
-                    $comments_count = count($source[$i]['kids']);
+                if (!empty($source[$i]['descendants'])) {
+                    $comments_count = $source[$i]['descendants'];
+
                     $comments = '<a class="hn-comment" href="https://news.ycombinator.com/item?id=' . $id . '">' . $comments_count . ' comments</a>';
                 } else {
                     $comments = 'No comments';
