@@ -1,6 +1,14 @@
-* { box-sizing: border-box; }
-html, body { height: 100%; }
+* {
+    box-sizing: border-box;
+}
+
+html,
 body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
     padding: 0;
     background: $site-bg;
     color: $primary-text;
@@ -8,34 +16,38 @@ body {
     font-size: $base-font-size;
     line-height: $base-line-height;
 }
+
 .container {
     padding: 0 0 1.5em 0;
     @include bp(tablet-landscape) {
         padding: 1.5em 10%;
     }
+    @include bp(desktop) {
+        margin: 0 auto;
+        padding: 1.5em 0;
+        max-width: 1080px;
+    }
 }
+
 h1 {
-    color: $dark;
+    color: #fff;
     margin: 0;
     padding: 0;
-
     a {
         text-decoration: none;
         color: inherit;
-
         &:visited {
-            color: $dark;
+            color: inherit;
         }
-
         &:hover {
-            color: #fff;
+            color: inherit;
         }
     }
 }
+
 a {
     color: $link;
     outline: 0;
-
     &:visited {
         color: $link-visited;
     }
@@ -46,24 +58,26 @@ a {
         color: $link-active;
     }
 }
-.title {
+
+.page-title {
     background: $primary-accent;
     padding: 0 1em;
     @include bp(tablet-landscape) {
         padding: 0 2em;
     }
-
-    h1 {
-        @include font-size(16px);
-        @include bp(phablet) {
-            @include font-size(20px);
-        }
-        @include bp(tablet-landscape) {
-            @include font-size(32px);
-        }
-        line-height: 96px;
-    }
 }
+
+.h1 {
+    @include font-size(16px);
+    @include bp(phablet) {
+        @include font-size(20px);
+    }
+    @include bp(tablet-landscape) {
+        @include font-size(32px);
+    }
+    line-height: 96px;
+}
+
 .hn-logo {
     border: 1px solid #FFF;
     display: block;
@@ -75,40 +89,41 @@ a {
         margin: 32px 32px 0 0;
     }
 }
+
 #links-list {
     background-color: $list-bg;
     list-style: none;
     margin: 0 0 1.5em 0;
     padding: 0;
-
     li {
         padding: 0 1em;
         @include bp(tablet-landscape) {
             padding: 0 32px;
         }
-
         &:last-child .comments {
             border: none;
         }
     }
-
     a:visited {
         .count {
             color: $mid;
             background-color: white;
         }
     }
-
+    a:hover {
+        .count {
+            color: $dark;
+            border-color: $dark;
+        }
+    }
 }
 
 .hn-link {
     @include clearfix();
-    //border-bottom: $default-border;
     display: block;
     overflow: hidden;
     padding: 1em 0 0 0;
     text-decoration: none;
-
     @include bp(phablet) {
         @include font-size(20px);
     }
@@ -121,6 +136,13 @@ a {
     overflow: hidden;
 }
 
+.link-title {
+    display: inline-block;
+    @include bp(phablet) {
+        line-height: 30px;
+    }
+}
+
 .link-text {
     margin-right: 16px;
 }
@@ -131,7 +153,6 @@ a {
     font-family: $additional;
     font-style: italic;
     padding-left: 0;
-
     @include bp(tablet-landscape) {
         display: inline;
         padding-left: .5em;
@@ -139,18 +160,21 @@ a {
 }
 
 .count {
-    @include border-radius(100px);
-    @include font-size(12px);
-    background-color: $light;
-    border: $default-border;
-    color: $dark;
+    //@include border-radius(100px);
+    @include font-size(14px);
     display: block;
     float: left;
-    height: 22px;
-    line-height: 18px;
-    margin: 4px 16px 0 0;
+    height: 30px;
+    width: 30px;
+    margin: 0 16px 0 0;
+    background-color: #fff;
+    border: $default-border;
+    color: $dark;
+    line-height: 26px;
     text-align: center;
-    width: 22px;
+    @include bp(tablet-landscape) {
+        margin: 0 32px 0 0;
+    }
 }
 
 .posted {
@@ -162,23 +186,28 @@ a {
     }
 }
 
+.no-comments,
 .comments {
     display: block;
     border-bottom: $default-border;
-    margin-left: 40px;
+    margin-left: 46px;
     padding: 0 0 1em 0;
-
-    @include bp(tablet-landscape) {
-        padding: 0 0 1.5em;
-    }
-}
-
-.hn-comment {
-    text-decoration: none;
     @include font-size(14px);
     @include bp(phablet) {
         @include font-size(16px);
     }
+    @include bp(tablet-landscape) {
+        margin-left: 62px;
+        padding: 0 0 1.5em;
+    }
+}
+
+.no-comments {
+    color: #b8b8b8;
+}
+
+.hn-comment {
+    text-decoration: none;
 }
 
 .footer-inner {

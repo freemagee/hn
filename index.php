@@ -28,7 +28,9 @@ function make_hn_list($source) {
             if ($source[$i]['type'] !== 'job') {
                 $id = $source[$i]['id'];
                 $title = $source[$i]['title'];
-                if (preg_match("/Ask HN:/", $title)) {
+                if (preg_match("/Ask HN:/", $title)
+                || preg_match("/Show HN:/", $title)
+                || preg_match("/Apply HN:/", $title)) {
                     $link = 'https://news.ycombinator.com/item?id=' . $id;
                     $host_domain_short = 'news.ycombinator.com';
                 } else {
@@ -42,8 +44,10 @@ function make_hn_list($source) {
                     $comments_count = $source[$i]['descendants'];
 
                     $comments = '<a class="hn-comment" href="https://news.ycombinator.com/item?id=' . $id . '">' . $comments_count . ' comments</a>';
+                    $comments_class= 'comments';
                 } else {
                     $comments = 'No comments';
+                    $comments_class= 'no-comments';
                 }
                 $posted = time_elapsed($today-$delay);
                 $number = $i + 1;
@@ -58,7 +62,7 @@ function make_hn_list($source) {
                 $html .= '<span class="posted">Posted: ' . $posted . ' ago</span>';
                 $html .= '</div>';
                 $html .= '</a>';
-                $html .= '<span class="comments">' . $comments . '</span>';
+                $html .= '<span class="' . $comments_class . '">' . $comments . '</span>';
                 $html .= '</li>';
             }
         }
@@ -142,8 +146,8 @@ function object_to_array($d) {
     <body>
         <div class="container">
 
-            <header class="title">
-                <h1><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
+            <header class="page-title">
+                <h1 class="h1"><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
             </header>
             <?php echo $hn_list; ?>
             <footer>
@@ -155,5 +159,4 @@ function object_to_array($d) {
 
         </div>
     </body>
-    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </html>
