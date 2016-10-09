@@ -1,5 +1,11 @@
 <?php
 /*******************************************************************************
+* INCLUDES
+ ******************************************************************************/
+
+include_once(dirname(__FILE__) . '/src/inc/common_functions.php');
+
+/*******************************************************************************
 * VARIABLES
  ******************************************************************************/
 $dir = dirname(__FILE__);
@@ -43,8 +49,8 @@ function make_hn_list($source) {
                 if (!empty($source[$i]['descendants'])) {
                     $comments_count = $source[$i]['descendants'];
 
-                    $comments = '<a class="hn-comment" href="https://news.ycombinator.com/item?id=' . $id . '">' . $comments_count . ' comments</a>';
-                    $comments_class= 'comments';
+                    $comments = '<a class="hn-comment" href="comments.php?id=' . $id . '">' . $comments_count . ' comments</a>';
+                    $comments_class= 'has-comments';
                 } else {
                     $comments = 'No comments';
                     $comments_class= 'no-comments';
@@ -94,42 +100,6 @@ function time_elapsed($secs){
     }
 
     return join(' ', $ret);
-}
-
-/**
- * [pre_r | a pretty version of print_r - helps with debugging arrays]
- * @param  [array] $val
- */
-function pre_r($val){
-    echo '<pre>';
-    print_r($val);
-    echo  '</pre>';
-}
-
-/**
- * [object_to_array description]
- * @param  [type] $d [description]
- * @return [type]    [description]
- */
-function object_to_array($d) {
-    if (is_object($d)) {
-        // Gets the properties of the given object
-        // with get_object_vars function
-        $d = get_object_vars($d);
-    }
-
-    if (is_array($d)) {
-        /*
-        * Return array converted to object
-        * Using __FUNCTION__ (Magic constant)
-        * for recursive call
-        */
-        return array_map(__FUNCTION__, $d);
-    }
-    else {
-        // Return array
-        return $d;
-    }
 }
 ?>
 <!DOCTYPE html>

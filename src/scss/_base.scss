@@ -187,7 +187,7 @@ a {
 }
 
 .no-comments,
-.comments {
+.has-comments {
     display: block;
     border-bottom: $default-border;
     margin-left: 46px;
@@ -208,6 +208,33 @@ a {
 
 .hn-comment {
     text-decoration: none;
+}
+
+.comments {
+    padding: 32px;
+    background: #fff;
+}
+
+.comment {}
+
+.comment--level-1 {
+    padding-left: 16px;
+}
+
+.comment--level-2 {
+    padding-left: 32px;
+}
+
+.comment--level-3 {
+    padding-left: 48px;
+}
+
+.comment--level-4 {
+    padding-left: 64px;
+}
+
+.comment--level-5 {
+    padding-left: 80px;
 }
 
 .footer-inner {

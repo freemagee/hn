@@ -1,5 +1,11 @@
 <?php
 /*******************************************************************************
+* INCLUDES
+ ******************************************************************************/
+
+include_once(dirname(__FILE__) . '/../src/inc/common_functions.php');
+
+/*******************************************************************************
  * VARIABLES
  ******************************************************************************/
 
@@ -73,41 +79,5 @@ function save_article_list($output, $source, $dir) {
  */
 function create_file($dir, $n, $xt) {
     fopen($dir . $n . '.' . $xt, "w");
-}
-
-/**
- * [pre_r pretty print]
- * @param  [array or object] $val [source data to be printed]
- */
-function pre_r($val){
-    echo '<pre>';
-    print_r($val);
-    echo  '</pre>';
-}
-
-/**
- * [object_to_array does what it says on the tin]
- * @param  [object] $d [input object]
- * @return [array]    [output array]
- */
-function object_to_array($d) {
-    if (is_object($d)) {
-        // Gets the properties of the given object
-        // with get_object_vars function
-        $d = get_object_vars($d);
-    }
-
-    if (is_array($d)) {
-        /*
-        * Return array converted to object
-        * Using __FUNCTION__ (Magic constant)
-        * for recursive call
-        */
-        return array_map(__FUNCTION__, $d);
-    }
-    else {
-        // Return array
-        return $d;
-    }
 }
 ?>
