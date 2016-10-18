@@ -3,15 +3,15 @@
 * INCLUDES
  ******************************************************************************/
 
-include_once(dirname(__FILE__) . '/../src/inc/common_functions.php');
+include_once(realpath(__DIR__ . '/..') . '/src/inc/common_functions.php');
 
 /*******************************************************************************
  * VARIABLES
  ******************************************************************************/
 
-$dir = dirname(__FILE__);
-$source_file = $dir . '/../src/data/' . 'data.json';
-$output_file = $dir . '/../src/data/' . 'comments.json';
+$dir = realpath(__DIR__ . '/..') . '/src/data/';
+$source_file = $dir . 'data.json';
+$output_file = $dir . 'comments.json';
 $source_data = file_get_contents($source_file);
 $source_obj = json_decode($source_data);
 $hn_article_list = object_to_array($source_obj);
@@ -36,10 +36,9 @@ if (!empty($hn_article_list)) {
         //$time_start = microtime(true);
         $comments_list = generate_comment_list($comments);
         //echo 'Total execution time in seconds: ' . (microtime(true) - $time_start);
+        $json_data = json_encode($comments_list);
+        file_put_contents($output_file, $json_data);
     }
-
-    $json_data = json_encode($comments_list);
-    file_put_contents($output_file, $json_data);
 }
 
 /*******************************************************************************
@@ -48,6 +47,7 @@ if (!empty($hn_article_list)) {
 
 function generate_comment_url($id) {
     //return 'https://hacker-news.firebaseio.com/v0/item/' . $id . '.json';
+    // Now using an alternative unofficial API
     return 'http://node-hnapi.herokuapp.com/item/' .$id;
 }
 

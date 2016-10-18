@@ -3,11 +3,12 @@
 * INCLUDES
  ******************************************************************************/
 
-include_once(dirname(__FILE__) . '/src/inc/common_functions.php');
+include_once(realpath(__DIR__) . '/src/inc/common_functions.php');
 
 /*******************************************************************************
 * VARIABLES
  ******************************************************************************/
+
 $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
 $article_id = $_GET['id'];
 
@@ -17,10 +18,9 @@ $article_id = $_GET['id'];
 
 if (preg_match("/^[0-9]{8}$/", $article_id)) {
     $this_articles_comments = get_article_comments($article_id);
-    //$depth = get_array_depth($this_articles_comments);
     $html = generate_comments_html($this_articles_comments);
 } else {
-    echo "<h2>There has been an error</h2>";
+    $html = '<h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p>';
 }
 
 /*******************************************************************************
@@ -39,43 +39,19 @@ function get_article_comments($id) {
 
 function generate_comments_html($comments) {
     $output = '';
-    //echo count($comments);
 
     foreach ($comments as $key => $value) {
-        //echo '<p>' . $key['level'] . '</p>';
-
         if (is_array($comments[$key])) {
             $output .= '<div class="comment comment--level-' . $comments[$key]['level'] . '">';
             $output .= $comments[$key]['content'];
             $output .= '</div>';
             if (array_key_exists('comments', $comments[$key]) && !empty($comments[$key]['comments'])) {
                 $output .= generate_comments_html($comments[$key]['comments']);
-                //pre_r($comments[$key]);
-                //echo $comments[$key]['id'];
             }
         }
     }
 
     return $output;
-}
-
-function get_array_depth($arr) {
-    $prime_key = 'comments';
-    $max_depth = 0;
-
-    foreach ($arr as $key => $value) {
-        if (array_key_exists($prime_key, $arr[$key])) {
-            if (is_array($arr[$key][$prime_key])) {
-                $depth = get_array_depth($arr[$key][$prime_key]) + 1;
-
-                if ($depth > $max_depth) {
-                    $max_depth = $depth;
-                }
-            }
-        }
-    }
-
-    return $max_depth;
 }
 ?>
 <!DOCTYPE html>

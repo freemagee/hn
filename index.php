@@ -3,7 +3,7 @@
 * INCLUDES
  ******************************************************************************/
 
-include_once(dirname(__FILE__) . '/src/inc/common_functions.php');
+include_once(realpath(__DIR__) . '/src/inc/common_functions.php');
 
 /*******************************************************************************
 * VARIABLES
@@ -75,7 +75,7 @@ function make_hn_list($source) {
 
         $html .= '</ul>';
     } else {
-        $html = '<h3>No news!</h3><p>Unfortunately there has been an error. It will be sorted out shortly.</p>';
+        $html = '<h3>No news!</h3><p>Unfortunately there has been an error displaying articles.</p>';
     }
 
     return $html;

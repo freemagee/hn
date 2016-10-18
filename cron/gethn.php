@@ -3,16 +3,16 @@
 * INCLUDES
  ******************************************************************************/
 
-include_once(dirname(__FILE__) . '/../src/inc/common_functions.php');
+include_once(realpath(__DIR__ . '/..') . '/src/inc/common_functions.php');
 
 /*******************************************************************************
  * VARIABLES
  ******************************************************************************/
 
 $articles = [];
-$dir = dirname(__FILE__);
+$dir = realpath(__DIR__ . '/..') . '/src/data/';
 $file = 'data.json';
-$filename = $dir . '/../src/data/' . $file;
+$filename = $dir . $file;
 $top_list = '';
 
 /*******************************************************************************
@@ -23,7 +23,7 @@ if (file_exists($filename)) {
     $top_list = get_list();
     save_article_list($articles, $top_list, $dir);
 } else {
-    create_file($dir . '/../src/data/', 'data', 'json');
+    create_file($dir, 'data', 'json');
     $top_list = get_list();
     save_article_list($articles, $top_list, $dir);
 }
@@ -68,7 +68,7 @@ function save_article_list($output, $source, $dir) {
     }
 
     $json_data = json_encode($output);
-    file_put_contents($dir . '/../src/data/data.json', $json_data);
+    file_put_contents($dir . '/data.json', $json_data);
 }
 
 /**
@@ -80,4 +80,3 @@ function save_article_list($output, $source, $dir) {
 function create_file($dir, $n, $xt) {
     fopen($dir . $n . '.' . $xt, "w");
 }
-?>
