@@ -61,7 +61,7 @@ function make_hn_list($source) {
                 // Build news list item
                 $html .= '<li>';
                 $html .= '<a class="hn-link" href="' . $link . '">';
-                $html .= '<span class="count">' . $number . '</span>';
+                $html .= '<div class="count">' . $number . '</div>';
                 $html .= '<div class="link-content">';
                 $html .= '<span class="link-title">' . $title . '</span>';
                 $html .= '<span class="source">' . $host_domain_short . '</span>';

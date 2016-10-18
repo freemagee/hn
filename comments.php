@@ -43,6 +43,8 @@ function generate_comments_html($comments) {
     foreach ($comments as $key => $value) {
         if (is_array($comments[$key])) {
             $output .= '<div class="comment comment--level-' . $comments[$key]['level'] . '">';
+            $output .= '<span class="comment__user">' . $comments[$key]['user'] . '</span>';
+            $output .= '<span class="comment__time-ago">' . $comments[$key]['time_ago'] . '</span>';
             $output .= $comments[$key]['content'];
             $output .= '</div>';
             if (array_key_exists('comments', $comments[$key]) && !empty($comments[$key]['comments'])) {

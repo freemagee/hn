@@ -18,13 +18,13 @@ body {
 }
 
 .container {
-    padding: 0 0 1.5em 0;
+    padding: 0 0 ($default-gap * 1.5) 0;
     @include bp(tablet-landscape) {
-        padding: 1.5em 10%;
+        padding: ($default-gap * 1.5) 10%;
     }
     @include bp(desktop) {
         margin: 0 auto;
-        padding: 1.5em 0;
+        padding: ($default-gap * 1.5) 0;
         max-width: 1080px;
     }
 }
@@ -61,9 +61,9 @@ a {
 
 .page-title {
     background: $primary-accent;
-    padding: 0 1em;
+    padding: 0 $default-gap;
     @include bp(tablet-landscape) {
-        padding: 0 2em;
+        padding: 0 ($default-gap * 2);
     }
 }
 
@@ -93,14 +93,14 @@ a {
 #links-list {
     background-color: $list-bg;
     list-style: none;
-    margin: 0 0 1.5em 0;
+    margin: 0 0 ($default-gap * 2) 0;
     padding: 0;
     li {
-        padding: 0 1em;
+        padding: 0 ($default-gap * 2);
         @include bp(tablet-landscape) {
             padding: 0 32px;
         }
-        &:last-child .comments {
+        &:last-child .has-comments {
             border: none;
         }
     }
@@ -119,26 +119,30 @@ a {
 }
 
 .hn-link {
-    @include clearfix();
     display: block;
     overflow: hidden;
-    padding: 1em 0 0 0;
+    padding: $default-gap 0 0 0;
     text-decoration: none;
     @include bp(phablet) {
         @include font-size(20px);
     }
     @include bp(tablet-landscape) {
-        padding: 1.5em 0 0;
+        padding: ($default-gap * 1.5) 0 0;
     }
 }
 
 .link-content {
     overflow: hidden;
+    margin-left: 46px;
+    @include bp(tablet-landscape) {
+        margin-left: 62px;
+    }
 }
 
 .link-title {
     display: inline-block;
     @include bp(phablet) {
+        margin-right: 0.5em;
         line-height: 30px;
     }
 }
@@ -152,35 +156,27 @@ a {
     display: block;
     font-family: $additional;
     font-style: italic;
-    padding-left: 0;
     @include bp(tablet-landscape) {
         display: inline;
-        padding-left: .5em;
     }
 }
 
 .count {
-    //@include border-radius(100px);
     @include font-size(14px);
-    display: block;
     float: left;
     height: 30px;
     width: 30px;
-    margin: 0 16px 0 0;
     background-color: #fff;
     border: $default-border;
     color: $dark;
     line-height: 26px;
     text-align: center;
-    @include bp(tablet-landscape) {
-        margin: 0 32px 0 0;
-    }
 }
 
 .posted {
+    @include font-size(14px);
     color: $mid;
     display: block;
-    @include font-size(14px);
     @include bp(phablet) {
         @include font-size(16px);
     }
@@ -188,17 +184,17 @@ a {
 
 .no-comments,
 .has-comments {
+    @include font-size(14px);
     display: block;
     border-bottom: $default-border;
     margin-left: 46px;
-    padding: 0 0 1em 0;
-    @include font-size(14px);
+    padding: 0 0 $default-gap 0;
     @include bp(phablet) {
         @include font-size(16px);
     }
     @include bp(tablet-landscape) {
         margin-left: 62px;
-        padding: 0 0 1.5em;
+        padding: 0 0 ($default-gap * 1.5);
     }
 }
 
@@ -215,26 +211,49 @@ a {
     background: #fff;
 }
 
-.comment {}
+.comment {
+    margin-bottom: $default-gap;
+
+    // Comment markup comes from HN
+    p {
+        margin: 0 0 $default-gap 0;
+        //font-family: $additional;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.comment__user {
+    @include font-size(14px);
+    margin-right: $default-gap;
+    color: $mid;
+}
+
+.comment__time-ago {
+    @include font-size(14px);
+    color: $mid;
+}
 
 .comment--level-1 {
-    padding-left: 16px;
+    padding-left: $default-gap;
 }
 
 .comment--level-2 {
-    padding-left: 32px;
+    padding-left: $default-gap * 3;
 }
 
 .comment--level-3 {
-    padding-left: 48px;
+    padding-left: $default-gap * 5;
 }
 
 .comment--level-4 {
-    padding-left: 64px;
+    padding-left: $default-gap * 7;
 }
 
 .comment--level-5 {
-    padding-left: 80px;
+    padding-left: $default-gap * 9;
 }
 
 .footer-inner {
