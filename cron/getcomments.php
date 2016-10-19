@@ -55,7 +55,7 @@ function generate_comment_list($array) {
     $output = array();
     $limit = count($array);
 
-    for ($i = 0; $i < 2; $i++) {
+    for ($i = 0; $i < $limit; $i++) {
         $id = $array[$i];
         $url = generate_comment_url($id);
         $comment = get_comment($url);
