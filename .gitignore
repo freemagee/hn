@@ -5,3 +5,4 @@
 _archive/
 src/data/
 node_modules
+*.log

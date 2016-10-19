@@ -1,5 +1,11 @@
 <?php
 /*******************************************************************************
+* INCLUDES
+ ******************************************************************************/
+
+include_once(realpath(__DIR__) . '/src/inc/common_functions.php');
+
+/*******************************************************************************
 * VARIABLES
  ******************************************************************************/
 $dir = dirname(__FILE__);
@@ -28,7 +34,9 @@ function make_hn_list($source) {
             if ($source[$i]['type'] !== 'job') {
                 $id = $source[$i]['id'];
                 $title = $source[$i]['title'];
-                if (preg_match("/Ask HN:/", $title)) {
+                if (preg_match("/Ask HN:/", $title)
+                || preg_match("/Show HN:/", $title)
+                || preg_match("/Apply HN:/", $title)) {
                     $link = 'https://news.ycombinator.com/item?id=' . $id;
                     $host_domain_short = 'news.ycombinator.com';
                 } else {
@@ -41,9 +49,11 @@ function make_hn_list($source) {
                 if (!empty($source[$i]['descendants'])) {
                     $comments_count = $source[$i]['descendants'];
 
-                    $comments = '<a class="hn-comment" href="https://news.ycombinator.com/item?id=' . $id . '">' . $comments_count . ' comments</a>';
+                    $comments = '<a class="hn-comment" href="comments.php?id=' . $id . '">' . $comments_count . ' comments</a>';
+                    $comments_class= 'has-comments';
                 } else {
                     $comments = 'No comments';
+                    $comments_class= 'no-comments';
                 }
                 $posted = time_elapsed($today-$delay);
                 $number = $i + 1;
@@ -51,21 +61,21 @@ function make_hn_list($source) {
                 // Build news list item
                 $html .= '<li>';
                 $html .= '<a class="hn-link" href="' . $link . '">';
-                $html .= '<span class="count">' . $number . '</span>';
+                $html .= '<div class="count">' . $number . '</div>';
                 $html .= '<div class="link-content">';
                 $html .= '<span class="link-title">' . $title . '</span>';
                 $html .= '<span class="source">' . $host_domain_short . '</span>';
                 $html .= '<span class="posted">Posted: ' . $posted . ' ago</span>';
                 $html .= '</div>';
                 $html .= '</a>';
-                $html .= '<span class="comments">' . $comments . '</span>';
+                $html .= '<span class="' . $comments_class . '">' . $comments . '</span>';
                 $html .= '</li>';
             }
         }
 
         $html .= '</ul>';
     } else {
-        $html = '<h3>No news!</h3><p>Unfortunately there has been an error. It will be sorted out shortly.</p>';
+        $html = '<h3>No news!</h3><p>Unfortunately there has been an error displaying articles.</p>';
     }
 
     return $html;
@@ -91,42 +101,6 @@ function time_elapsed($secs){
 
     return join(' ', $ret);
 }
-
-/**
- * [pre_r | a pretty version of print_r - helps with debugging arrays]
- * @param  [array] $val
- */
-function pre_r($val){
-    echo '<pre>';
-    print_r($val);
-    echo  '</pre>';
-}
-
-/**
- * [object_to_array description]
- * @param  [type] $d [description]
- * @return [type]    [description]
- */
-function object_to_array($d) {
-    if (is_object($d)) {
-        // Gets the properties of the given object
-        // with get_object_vars function
-        $d = get_object_vars($d);
-    }
-
-    if (is_array($d)) {
-        /*
-        * Return array converted to object
-        * Using __FUNCTION__ (Magic constant)
-        * for recursive call
-        */
-        return array_map(__FUNCTION__, $d);
-    }
-    else {
-        // Return array
-        return $d;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -142,8 +116,8 @@ function object_to_array($d) {
     <body>
         <div class="container">
 
-            <header class="title">
-                <h1><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
+            <header class="page-title">
+                <h1 class="h1"><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
             </header>
             <?php echo $hn_list; ?>
             <footer>
@@ -155,5 +129,4 @@ function object_to_array($d) {
 
         </div>
     </body>
-    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 </html>

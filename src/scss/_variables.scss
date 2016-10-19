@@ -1,12 +1,12 @@
-/* Type Variables */
+// Type Variables
 $body-font: Tahoma,Verdana,Segoe,sans-serif;
 $additional: Georgia,Times,"Times New Roman",serif;
 
-/* Sizes */
+// Sizes
 $base-font-size: 16px;
 $base-line-height: 1.5;
 
-/* Colour Variables */
+// Colour Variables
 $site-bg: rgb(242,242,242);
 $dark: rgb(40,40,40);
 $light: rgb(230,230,230);
@@ -22,5 +22,8 @@ $link-visited: rgb(184,184,184);
 $link-hover: rgb(255,166,0);//rgb(0,89,255);
 $link-active: rgb(255,166,0);
 
-/* Borders */
+// Borders
 $default-border: 1px solid rgb(200,200,200);
+
+// Settings
+$default-gap: 1em;
