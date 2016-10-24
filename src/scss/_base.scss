@@ -228,6 +228,11 @@ a {
         }
     }
 
+    a {
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+    }
+
     pre {
         margin: 0 0 $default-gap 0;
         background: $light;
@@ -253,24 +258,10 @@ a {
     color: $mid;
 }
 
-.comment--level-1 {
-    padding-left: $default-gap;
-}
-
-.comment--level-2 {
-    padding-left: $default-gap * 3;
-}
-
-.comment--level-3 {
-    padding-left: $default-gap * 5;
-}
-
-.comment--level-4 {
-    padding-left: $default-gap * 7;
-}
-
-.comment--level-5 {
-    padding-left: $default-gap * 9;
+@for $i from 1 through 10 {
+    [data-level="#{$i}"] {
+        padding-left: ($i + 1) * $default-gap;
+    }
 }
 
 .footer-inner {
