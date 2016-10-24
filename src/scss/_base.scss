@@ -10,219 +10,250 @@ body {
 body {
     margin: 0;
     padding: 0;
-    background: $site-bg;
-    color: $primary-text;
-    font-family: $body-font;
-    font-size: $base-font-size;
-    line-height: $base-line-height;
-}
-
-.container {
-    padding: 0 0 ($default-gap * 1.5) 0;
-    @include bp(tablet-landscape) {
-        padding: ($default-gap * 1.5) 10%;
-    }
-    @include bp(desktop) {
-        margin: 0 auto;
-        padding: ($default-gap * 1.5) 0;
-        max-width: 1080px;
-    }
-}
-
-h1 {
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    a {
-        text-decoration: none;
-        color: inherit;
-        &:visited {
-            color: inherit;
-        }
-        &:hover {
-            color: inherit;
-        }
-    }
+    background: $color__background;
+    color: $color__text-default;
+    font-family: $font__main;
+    font-size: 100%;
+    line-height: $font__base-line-height;
 }
 
 a {
-    color: $link;
+    color: $color__text-link;
     outline: 0;
+    transition: color 0.2s linear;
+
     &:visited {
-        color: $link-visited;
+        color: $color__text-link-visited;
     }
+
     &:hover {
-        color: $link-hover;
+        color: $color__text-link-hover;
     }
+
     &:active {
-        color: $link-active;
+        color: $color__text-link-active;
     }
 }
 
-.page-title {
-    background: $primary-accent;
-    padding: 0 $default-gap;
+header {
+    background: $color__accent;
+    padding: 0 1rem;
+
     @include bp(tablet-landscape) {
-        padding: 0 ($default-gap * 2);
+        padding: 0 1.5rem;
     }
 }
 
-.h1 {
-    @include font-size(16px);
-    @include bp(phablet) {
-        @include font-size(20px);
-    }
-    @include bp(tablet-landscape) {
-        @include font-size(32px);
-    }
-    line-height: 96px;
+footer {
+    padding: 1rem;
+    background: $color__background;
 }
 
-.hn-logo {
-    border: 1px solid #FFF;
-    display: block;
-    float: left;
-    height: 30px;
-    margin: 32px 16px 0 0;
-    width: 30px;
-    @include bp(tablet-landscape) {
-        margin: 32px 32px 0 0;
-    }
-}
-
-#links-list {
-    background-color: $list-bg;
-    list-style: none;
-    margin: 0 0 ($default-gap * 2) 0;
+.container {
     padding: 0;
-    li {
-        padding: 0 $default-gap;
-        @include bp(tablet-landscape) {
-            padding: 0 ($default-gap * 2)
-        }
-        &:last-child .has-comments {
-            border: none;
-        }
+    background-color: #fff;
+
+    @include bp(tablet-landscape) {
+        margin: 1.5rem 10% 0;
     }
-    a:visited {
-        .count {
-            color: $mid;
-            background-color: white;
-        }
-    }
-    a:hover {
-        .count {
-            color: $dark;
-            border-color: $dark;
-        }
+
+    @include bp(desktop) {
+        margin: 1.5rem auto 0;
+        max-width: $layout__max-width;
     }
 }
 
-.hn-link {
+.primary-title {
+    color: #fff;
+    margin: 0;
+    padding: 1rem 0;
+    font-size: 1em;
+}
+
+.primary-title__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+
+    &:visited,
+    &:hover {
+        color: inherit;
+    }
+}
+
+.primary-title__text {
+    flex: 1 0 auto;
+    font-size: 1.2em;
+
+    @include bp(tablet-landscape) {
+        font-size: 1.6em;
+    }
+}
+
+.primary-title__logo {
+    flex: 0 1 32px;
+    width: 32px;
+    height: 32px;
+    margin: 0 1rem 0 0;
+    border: 1px solid #fff;
+
+    @include bp(tablet-landscape) {
+        margin: 0 2rem 0 0;
+    }
+}
+
+.links-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.links-list__item {
+    margin: 1rem;
+
+    @include bp(tablet-landscape) {
+        margin: 1.5rem;
+    }
+
+    &:after {
+        content: '';
+        display: block;
+        width: unquote("-webkit-calc(100% - 46px)");
+        margin: 1em 0 0 46px;
+        height: 1px;
+        background-color: #ccc;
+        text-align: right;
+
+        @include bp(tablet-landscape) {
+            width: unquote("-webkit-calc(100% - 62px)");
+            width: unquote("-moz-calc(100% - 62px)");
+            width: unquote("calc(100% - 62px)");
+            margin: 1.5em 0 0 62px;
+        }
+    }
+
+    &:last-child:after {
+        display: none;
+    }
+}
+
+.links-list__link {
     display: block;
     overflow: hidden;
-    padding: $default-gap 0 0 0;
     text-decoration: none;
-    @include bp(phablet) {
-        @include font-size(20px);
-    }
+
     @include bp(tablet-landscape) {
-        padding: ($default-gap * 1.5) 0 0;
+        font-size: 1.2em;
+    }
+
+    &:visited {
+        .links-list__count {
+            color: $color__mid;
+        }
+    }
+
+    &:hover,
+    &:active {
+        .links-list__count {
+            color: $color__dark;
+            border-color: $color__dark;
+        }
     }
 }
 
-.link-content {
+.links-list__content {
     overflow: hidden;
     margin-left: 46px;
+
     @include bp(tablet-landscape) {
         margin-left: 62px;
     }
 }
 
-.link-title {
+.links-list__title {
     display: inline-block;
-    @include bp(phablet) {
-        margin-right: 0.5em;
-        line-height: 30px;
+
+    @include bp(tablet-landscape) {
+        margin-right: 0.5rem;
+        line-height: 32px;
     }
 }
 
-.link-text {
-    margin-right: 16px;
-}
-
-.source {
-    color: $mid;
+.links-list__source {
+    color: $color__mid;
     display: block;
-    font-family: $additional;
     font-style: italic;
+
     @include bp(tablet-landscape) {
         display: inline;
     }
 }
 
-.count {
-    @include font-size(14px);
+.links-list__count {
     float: left;
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     background-color: #fff;
-    border: $default-border;
-    color: $dark;
-    line-height: 26px;
+    border: 1px solid $color__border-default;
+    color: $color__dark;
+    line-height: 30px;
     text-align: center;
+    font-size: 0.875em;
+    transition: border 0.2s linear;
 }
 
-.posted {
-    @include font-size(14px);
-    color: $mid;
-    display: block;
-    @include bp(phablet) {
-        @include font-size(16px);
-    }
-}
-
-.no-comments,
-.has-comments {
-    @include font-size(14px);
-    display: block;
-    border-bottom: $default-border;
+.links-list__posted {
+    display: inline-block;
     margin-left: 46px;
-    padding: 0 0 $default-gap 0;
-    @include bp(phablet) {
-        @include font-size(16px);
-    }
+    color: $color__mid;
+    font-size: 0.875em;
+
     @include bp(tablet-landscape) {
         margin-left: 62px;
-        padding: 0 0 ($default-gap * 1.5);
+        font-size: 1em;
     }
 }
 
-.no-comments {
-    color: #b8b8b8;
+.links-list__comments {
+    display: inline-block;
+    margin-left: 1em;
+    font-size: 0.875em;
+    text-decoration: none;
+
+    @include bp(tablet-landscape) {
+        font-size: 1em;
+    }
 }
 
-.hn-comment {
-    text-decoration: none;
+.links-list__comments--no-comments {
+    color: $color__text-link-visited;
 }
 
 .comments {
-    padding: 1em;
-    background: #fff;
+    padding: 1rem;
+
     @include bp(tablet-landscape) {
-        padding: 2em;
+        padding: 2rem;
     }
 }
 
 .comment {
-    margin-bottom: $default-gap;
+    margin-bottom: 1rem;
 
     // Comment markup comes from HN
     p {
-        margin: 0 0 $default-gap 0;
+        margin: 0 0 1rem 0;
+        font-size: 0.875em;
+
+        @include bp(tablet) {
+            font-size: 1em;
+        }
+
         &:last-child {
             margin-bottom: 0;
         }
+
         &:empty {
             display: none;
         }
@@ -234,36 +265,55 @@ a {
     }
 
     pre {
-        margin: 0 0 $default-gap 0;
-        background: $light;
+        margin: 0 0 1rem 0;
+        background: $color__light;
         padding: 0.5em;
     }
 
     code {
-        @include font-size(13px);
         padding: 0;
         margin: 0;
-        font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+        font-family: $font__code;
+        font-size: 0.75em;
     }
 }
 
+.comment__meta {
+    margin-bottom: 0.5rem;
+}
+
 .comment__user {
-    @include font-size(14px);
-    margin-right: $default-gap;
-    color: $mid;
+    padding: 3px 8px;
+    margin-right: 0.5rem;
+    border-radius: 4px;
+    background: $color__light;
+    color: $color__dark;
+    font-size: 0.875em;
 }
 
 .comment__time-ago {
-    @include font-size(14px);
-    color: $mid;
+    color: $color__mid;
+    font-size: 0.875em;
 }
 
 @for $i from 1 through 10 {
     [data-level="#{$i}"] {
-        padding-left: ($i + 1) * $default-gap;
+        padding-left: ($i + 1) * 1rem;
     }
 }
 
-.footer-inner {
+.attributions {
     text-align: center;
+
+    p {
+        margin: 0;
+    }
+
+    a, a:visited {
+        color: $color__mid;
+    }
+
+    a:hover {
+        color: $color__dark;
+    }
 }

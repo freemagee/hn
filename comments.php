@@ -18,7 +18,7 @@ $article_id = $_GET['id'];
 
 if (preg_match("/^[0-9]{8}$/", $article_id)) {
     $this_articles_comments = get_article_comments($article_id);
-    $html = generate_comments_html($this_articles_comments);
+    $html = '<div class="comments">' . generate_comments_html($this_articles_comments) . '</div>';
 } else {
     $html = '<h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p>';
 }
@@ -43,10 +43,12 @@ function generate_comments_html($comments) {
     foreach ($comments as $key => $value) {
         if (is_array($comments[$key])) {
             $output .= '<div class="comment" data-level="' . $comments[$key]['level'] . '">';
+            $output .= '<div class="comment__meta">';
             if (!empty($comments[$key]['user'])) {
                 $output .= '<span class="comment__user">' . $comments[$key]['user'] . '</span>';
             }
             $output .= '<span class="comment__time-ago">' . $comments[$key]['time_ago'] . '</span>';
+            $output .= '</div>';
             if ($comments[$key]['content'] === '[deleted]') {
                 $output .= '<p>' . $comments[$key]['content'] . '</p>';
             } else {
@@ -75,18 +77,20 @@ function generate_comments_html($comments) {
     </head>
     <body>
         <div class="container">
-
-            <header class="page-title">
-                <h1 class="h1"><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
+            <header>
+                <h1 class="primary-title">
+                    <a href="./" class="primary-title__link">
+                        <img src="src/img/hn-logo.svg" class="primary-title__logo" />
+                        <span class="primary-title__text">Responsive Hacker News</span>
+                    </a>
+                </h1>
             </header>
-            <?php echo '<div class="comments">' . $html . '</div>'; ?>
+            <?php echo $html; ?>
             <footer>
-                <div class="footer-inner">
-                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a><br />
-                    Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
+                <div class="attributions">
+                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a> | Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
                 </div>
             </footer>
-
         </div>
     </body>
 </html>

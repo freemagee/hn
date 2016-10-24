@@ -12,7 +12,7 @@ $dir = dirname(__FILE__);
 $source_file = file_get_contents($dir . '/src/data/data.json');
 $source_obj = json_decode($source_file);
 $source = object_to_array($source_obj);
-$hn_list = make_hn_list($source);
+$html = make_hn_list($source);
 
 /*******************************************************************************
 * FUNCTIONS
@@ -28,7 +28,7 @@ function make_hn_list($source) {
 
     if (!empty($source)) {
         $limit = count($source);
-        $html = '<ul id="links-list">';
+        $html = '<ul class="links-list">';
 
         for ($i = 0; $i < $limit; $i++) {
             if ($source[$i]['type'] !== 'job') {
@@ -49,26 +49,24 @@ function make_hn_list($source) {
                 if (!empty($source[$i]['descendants'])) {
                     $comments_count = $source[$i]['descendants'];
 
-                    $comments = '<a class="hn-comment" href="comments.php?id=' . $id . '">' . $comments_count . ' comments</a>';
-                    $comments_class= 'has-comments';
+                    $comments = '<a class="links-list__comments links-list__comments--has-comments" href="comments.php?id=' . $id . '">' . $comments_count . ' comments</a>';
                 } else {
-                    $comments = 'No comments';
-                    $comments_class= 'no-comments';
+                    $comments = '<span class="links-list__comments links-list__comments--no-comments">No comments</span>';
                 }
                 $posted = time_elapsed($today-$delay);
                 $number = $i + 1;
 
                 // Build news list item
-                $html .= '<li>';
-                $html .= '<a class="hn-link" href="' . $link . '">';
-                $html .= '<div class="count">' . $number . '</div>';
-                $html .= '<div class="link-content">';
-                $html .= '<span class="link-title">' . $title . '</span>';
-                $html .= '<span class="source">' . $host_domain_short . '</span>';
-                $html .= '<span class="posted">Posted: ' . $posted . ' ago</span>';
+                $html .= '<li class="links-list__item">';
+                $html .= '<a class="links-list__link" href="' . $link . '">';
+                $html .= '<div class="links-list__count">' . $number . '</div>';
+                $html .= '<div class="links-list__content">';
+                $html .= '<span class="links-list__title">' . $title . '</span>';
+                $html .= '<span class="links-list__source">' . $host_domain_short . '</span>';
                 $html .= '</div>';
                 $html .= '</a>';
-                $html .= '<span class="' . $comments_class . '">' . $comments . '</span>';
+                $html .= '<span class="links-list__posted">Posted: ' . $posted . ' ago</span>';
+                $html .= $comments;
                 $html .= '</li>';
             }
         }
@@ -115,18 +113,20 @@ function time_elapsed($secs){
     </head>
     <body>
         <div class="container">
-
-            <header class="page-title">
-                <h1 class="h1"><a href="./"><img src="src/img/hn-logo.svg" class="hn-logo" />Responsive Hacker News</a></h1>
+            <header>
+                <h1 class="primary-title">
+                    <a href="./" class="primary-title__link">
+                        <img src="src/img/hn-logo.svg" class="primary-title__logo" />
+                        <span class="primary-title__text">Responsive Hacker News</span>
+                    </a>
+                </h1>
             </header>
-            <?php echo $hn_list; ?>
+            <?php echo $html; ?>
             <footer>
-                <div class="footer-inner">
-                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a><br />
-                    Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
+                <div class="attributions">
+                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a> | Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
                 </div>
             </footer>
-
         </div>
     </body>
 </html>
