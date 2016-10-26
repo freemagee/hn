@@ -18,9 +18,13 @@ $article_id = $_GET['id'];
 
 if (preg_match("/^[0-9]{8}$/", $article_id)) {
     $this_articles_comments = get_article_comments($article_id);
-    $html = '<div class="comments">' . generate_comments_html($this_articles_comments) . '</div>';
+    if ($this_articles_comments !== 0) {
+        $html = '<div class="comments">' . generate_comments_html($this_articles_comments) . '</div>';
+    } else {
+        $html = '<div class="comments"><h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p></div>';
+    }
 } else {
-    $html = '<h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p>';
+    $html = '<div class="comments"><h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p></div>';
 }
 
 /*******************************************************************************
@@ -32,7 +36,11 @@ function get_article_comments($id) {
     $source_file = file_get_contents($dir . '/src/data/comments.json');
     $source_obj = json_decode($source_file);
     $source = object_to_array($source_obj);
-    $output = $source[$id]['comments'];
+    if (isset($source[$id])) {
+        $output = $source[$id]['comments'];
+    } else {
+        $output = 0;
+    }
 
     return $output;
 }
