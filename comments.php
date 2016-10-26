@@ -16,9 +16,11 @@ $article_id = $_GET['id'];
  * LOGIC
  ******************************************************************************/
 
+// Check id matched pattern, this may need to be more adaptable for the future
 if (preg_match("/^[0-9]{8}$/", $article_id)) {
     $this_articles_comments = get_article_comments($article_id);
-    if ($this_articles_comments !== 0) {
+
+    if (!empty($this_articles_comments)) {
         $html = '<div class="comments">' . generate_comments_html($this_articles_comments) . '</div>';
     } else {
         $html = '<div class="comments"><h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p></div>';
@@ -36,10 +38,16 @@ function get_article_comments($id) {
     $source_file = file_get_contents($dir . '/src/data/comments.json');
     $source_obj = json_decode($source_file);
     $source = object_to_array($source_obj);
+
     if (isset($source[$id])) {
+        // ID is in the $source array
         $output = $source[$id]['comments'];
     } else {
-        $output = 0;
+        // ID is not in $source array, need to get comments from API
+        // This could be because the comments.json is ahead of the article being viewed
+        $new_comment_json = get_comment('http://node-hnapi.herokuapp.com/item/' .$id);
+        $new_comments = object_to_array($new_comment_json);
+        $output = $new_comments['comments'];
     }
 
     return $output;
@@ -54,6 +62,8 @@ function generate_comments_html($comments) {
             $output .= '<div class="comment__meta">';
             if (!empty($comments[$key]['user'])) {
                 $output .= '<span class="comment__user">' . $comments[$key]['user'] . '</span>';
+            } else {
+                $output .= '<span class="comment__user">[anonymous]</span>';
             }
             $output .= '<span class="comment__time-ago">' . $comments[$key]['time_ago'] . '</span>';
             $output .= '</div>';
@@ -71,13 +81,24 @@ function generate_comments_html($comments) {
 
     return $output;
 }
+
+function get_comment($url) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    $data = curl_exec($ch);
+    $data_obj = json_decode($data);
+    $comment = object_to_array($data_obj);
+
+    return $comment;
+}
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Responsive Hacker News | Mobile optimised Hacker News</title>
+        <title>Responsive Hacker News Comments | Mobile optimised Hacker News</title>
         <meta name="description" content="Just the links from Hacker News, optimised for small screens and mobile devices.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="favicon.ico">
@@ -96,7 +117,7 @@ function generate_comments_html($comments) {
             <?php echo $html; ?>
             <footer>
                 <div class="attributions">
-                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a> | Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
+                    <p>Responsive Hacker News created by <a href="http://neilmagee.com">Neil Magee</a> | This site is based on <a href="https://news.ycombinator.com">Hacker News</a></p>
                 </div>
             </footer>
         </div>

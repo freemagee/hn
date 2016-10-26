@@ -124,7 +124,7 @@ function time_elapsed($secs){
             <?php echo $html; ?>
             <footer>
                 <div class="attributions">
-                    <p>Hacker News Responsive - <a href="http://neilmagee.com">Neil Magee</a> | Original Hacker News - <a href="https://news.ycombinator.com">https://news.ycombinator.com</a></p>
+                    <p>Responsive Hacker News created by <a href="http://neilmagee.com">Neil Magee</a> | This site is based on <a href="https://news.ycombinator.com">Hacker News</a></p>
                 </div>
             </footer>
         </div>
