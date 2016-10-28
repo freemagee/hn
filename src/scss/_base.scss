@@ -240,23 +240,23 @@ footer {
 
 .comment {
     margin-bottom: 1rem;
+    font-size: 0.875em;
+
+    @include bp(tablet) {
+        font-size: 1em;
+    }
 
     // Comment markup comes from HN
     p {
-        margin: 0 0 1rem 0;
-        font-size: 0.875em;
-
-        @include bp(tablet) {
-            font-size: 1em;
-        }
-
-        &:last-child {
-            margin-bottom: 0;
-        }
+        margin: 0;
 
         &:empty {
             display: none;
         }
+    }
+
+    p + p {
+        margin: 1rem 0 0 0;
     }
 
     a {
@@ -268,13 +268,14 @@ footer {
         margin: 0 0 1rem 0;
         background: $color__light;
         padding: 0.5em;
+        overflow: auto;
     }
 
     code {
         padding: 0;
         margin: 0;
         font-family: $font__code;
-        font-size: 0.75em;
+        font-size: 0.875em;
     }
 }
 
