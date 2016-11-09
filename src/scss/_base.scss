@@ -230,20 +230,56 @@ footer {
     color: $color__text-link-visited;
 }
 
+.article-title {
+    position: relative;
+    margin: 0 0 1em 0;
+    padding: 0 0 1em 0;
+    font-size: 1.2rem;
+    line-height: 1.2;
+
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 32px;
+        height: 4px;
+        background-color: $color__accent;
+    }
+}
+
+.article-title__link {
+    text-decoration: none;
+}
+
+.article-title__source {
+    color: $color__mid;
+    display: block;
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: normal;
+
+    @include bp(tablet-landscape) {
+        display: inline;
+        padding-left: 0.5rem;
+    }
+}
+
 .comments {
     padding: 1rem;
 
     @include bp(tablet-landscape) {
-        padding: 2rem;
+        padding: 1.5rem;
     }
 }
 
 .comment {
     margin-bottom: 1rem;
-    font-size: 0.875em;
+    font-size: 0.875rem;
 
     @include bp(tablet) {
-        font-size: 1em;
+        font-size: 1rem;
     }
 
     // Comment markup comes from HN
@@ -265,7 +301,7 @@ footer {
     }
 
     pre {
-        margin: 0 0 1rem 0;
+        margin: 1rem 0;
         background: $color__light;
         padding: 0.5em;
         overflow: auto;
@@ -275,7 +311,7 @@ footer {
         padding: 0;
         margin: 0;
         font-family: $font__code;
-        font-size: 0.875em;
+        font-size: 0.875rem;
     }
 }
 

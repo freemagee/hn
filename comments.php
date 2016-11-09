@@ -18,12 +18,14 @@ $article_id = $_GET['id'];
 
 // Check id matched pattern, this may need to be more adaptable for the future
 if (preg_match("/^[0-9]{8}$/", $article_id)) {
-    $this_articles_comments = get_article_comments($article_id);
+    $source = format_source();
+    $the_title = get_the_title($article_id, $source);
+    $the_comments = get_article_comments($article_id, $source);
 
-    if (!empty($this_articles_comments)) {
-        $html = '<div class="comments">' . generate_comments_html($this_articles_comments) . '</div>';
+    if (!empty($the_comments)) {
+        $html = '<div class="comments">' . $the_title . generate_comments_html($the_comments) . '</div>';
     } else {
-        $html = '<div class="comments"><h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p></div>';
+        $html = '<div class="comments">' . $the_title . '<h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p></div>';
     }
 } else {
     $html = '<div class="comments"><h3>No comments!</h3><p>Unfortunately there has been an error with this articles comments.</p></div>';
@@ -33,12 +35,30 @@ if (preg_match("/^[0-9]{8}$/", $article_id)) {
 * FUNCTIONS
  ******************************************************************************/
 
-function get_article_comments($id) {
+function format_source() {
     $dir = dirname(__FILE__);
     $source_file = file_get_contents($dir . '/src/data/comments.json');
     $source_obj = json_decode($source_file);
-    $source = object_to_array($source_obj);
+    $output = object_to_array($source_obj);
 
+    return $output;
+}
+
+function get_the_title($id, $source) {
+    if (isset($source[$id])) {
+        $url = $source[$id]['url'];
+        $title = $source[$id]['title'];
+        $domain = $source[$id]['domain'];
+
+        $output = '<a href="' . $url . '" class="article-title__link">' . $title . '</a><span class="article-title__source">' . $domain . '</span>';
+    } else {
+        $output = 'Article title unavailable';
+    }
+
+    return '<h2 class="article-title">' . $output . '</h2>';
+}
+
+function get_article_comments($id, $source) {
     if (isset($source[$id])) {
         // ID is in the $source array
         $output = $source[$id]['comments'];
