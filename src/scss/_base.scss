@@ -333,7 +333,7 @@ footer {
     font-size: 0.875em;
 }
 
-@for $i from 1 through 10 {
+@for $i from 1 through 15 {
     [data-level="#{$i}"] {
         padding-left: $i * 1rem;
     }
