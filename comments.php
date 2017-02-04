@@ -48,7 +48,11 @@ function get_the_title($id, $source) {
     if (isset($source[$id])) {
         $url = $source[$id]['url'];
         $title = $source[$id]['title'];
-        $domain = $source[$id]['domain'];
+        if (isset($source[$id]['domain'])) {
+            $domain = $source[$id]['domain'];
+        } else {
+            $domain = 'news.ycombinator.com';
+        }
 
         $output = '<a href="' . $url . '" class="article-title__link">' . $title . '</a><span class="article-title__source">' . $domain . '</span>';
     } else {

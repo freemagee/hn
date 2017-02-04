@@ -25,6 +25,8 @@ $html = make_hn_list($source);
  */
 function make_hn_list($source) {
     $today = time();
+    $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+    $escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
 
     if (!empty($source)) {
         $limit = count($source);
@@ -37,7 +39,7 @@ function make_hn_list($source) {
                 if (preg_match("/Ask HN:/", $title)
                 || preg_match("/Show HN:/", $title)
                 || preg_match("/Apply HN:/", $title)) {
-                    $link = 'https://news.ycombinator.com/item?id=' . $id;
+                    $link = $escaped_url . 'comments.php?id=' . $id;
                     $host_domain_short = 'news.ycombinator.com';
                 } else {
                     $link = $source[$i]['url'];
