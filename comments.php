@@ -82,7 +82,7 @@ function generate_comments_html($comments) {
 
     foreach ($comments as $key => $value) {
         if (is_array($comments[$key])) {
-            $output .= '<div class="comment" data-level="' . $comments[$key]['level'] . '">';
+            $output .= '<div class="comment" data-id="' . $comments[$key]['id'] . '" data-level="' . $comments[$key]['level'] . '">';
             $output .= '<div class="comment__meta">';
             if (!empty($comments[$key]['user'])) {
                 $output .= '<span class="comment__user">' . $comments[$key]['user'] . '</span>';

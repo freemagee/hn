@@ -276,11 +276,7 @@ footer {
 
 .comment {
     margin-bottom: 1rem;
-    font-size: 0.875rem;
-
-    @include bp(tablet) {
-        font-size: 1rem;
-    }
+    font-size: 1rem;
 
     // Comment markup comes from HN
     p {
