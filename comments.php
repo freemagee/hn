@@ -248,20 +248,9 @@ function get_new_source($url)
     </head>
     <body>
         <div class="container">
-            <header>
-                <h1 class="primary-title">
-                    <a href="./" class="primary-title__link">
-                        <img src="src/img/hn-logo.svg" class="primary-title__logo" />
-                        <span class="primary-title__text">Responsive Hacker News</span>
-                    </a>
-                </h1>
-            </header>
+            <?php require_once realpath(__DIR__).'/src/inc/header.php'; ?>
             <?php echo $html; ?>
-            <footer>
-                <div class="attributions">
-                    <p>Responsive Hacker News created by <a href="http://neilmagee.com">Neil Magee</a> | This site is based on <a href="https://news.ycombinator.com">Hacker News</a></p>
-                </div>
-            </footer>
+            <?php require_once realpath(__DIR__).'/src/inc/footer.php'; ?>
         </div>
     </body>
 </html>
