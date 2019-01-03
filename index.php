@@ -75,7 +75,10 @@ function make_hn_list($source) {
 
         $html .= '</ul>';
     } else {
-        $html = '<h3>No news!</h3><p>Unfortunately there has been an error displaying articles.</p>';
+        $html = '<div class="no-news">';
+        $html .= '<h3>No news!</h3>';
+        $html .= '<p>Unfortunately there has been an error displaying articles.</p>';
+        $html .= '</div>';
     }
 
     return $html;
@@ -115,7 +118,7 @@ function time_elapsed($secs){
     </head>
     <body>
         <div class="container">
-            <header>
+            <header style="display: none;">
                 <h1 class="primary-title">
                     <a href="./" class="primary-title__link">
                         <img src="src/img/hn-logo.svg" class="primary-title__logo" />

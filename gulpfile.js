@@ -88,7 +88,7 @@ gulp.task('serve', ['watch-sass'], function () {
     // Initiate BrowserSync
     // Docs: https://www.browsersync.io/docs/gulp
     browserSync.init({
-        proxy: "hn.dev"
+        proxy: "hn.localhost:8080"
     });
     //gulp.watch("*.php").on('change', browserSync.reload);
 });
