@@ -1,7 +1,7 @@
 <?php
-/******************************************************************************
+/*
  * INCLUDES
- *****************************************************************************/
+ */
 
 require_once realpath(__DIR__).'/src/inc/common_functions.php';
 
@@ -16,7 +16,7 @@ $article_id = $_GET['id'];
  * LOGIC
  */
 
-// Check id matched pattern, this may need to be more adaptable for the future
+// Check id matched pattern, this may need to be more adaptable for the future. Also check the source data and format it.
 try {
     if (validate_id($article_id) === false) {
         throw new Exception('Article ID is not valid');
@@ -45,11 +45,17 @@ try {
     $html .= '</div>';
 }//end try
 
-/******************************************************************************
+/*
  * FUNCTIONS
- *****************************************************************************/
+ */
 
 
+/**
+ * Run a regex against the ID parameter
+ *
+ * @param  string $id
+ * @return boolean
+ */
 function validate_id($id)
 {
     if (preg_match('/^[0-9]{8}$/', $id)) {
@@ -72,9 +78,9 @@ function validate_id($id)
 function validate_source($id)
 {
     // First look at local file system for json. JSON is typically already there because of a cron job on /cron/getcomments.php
-    $dir         = dirname(__FILE__);
-    $source_file = file_get_contents($dir.'/src/data/comments.json');
-    $id_is_undefined = false;
+    $dir              = dirname(__FILE__);
+    $source_file      = file_get_contents($dir.'/src/data/comments.json');
+    $id_is_undefined  = false;
     $article_comments = null;
 
     if ($source_file !== false) {
@@ -98,6 +104,13 @@ function validate_source($id)
 }//end validate_source()
 
 
+/**
+ * Find the specified child node in an array
+ *
+ * @param  string $source_file
+ * @param  string $id
+ * @return mixed     Either an array or NULL
+ */
 function find_article_comments($source_file, $id)
 {
     $output = transform_source($source_file);
@@ -111,6 +124,12 @@ function find_article_comments($source_file, $id)
 }//end find_article_comments()
 
 
+/**
+ * Transforms string of json into and array
+ *
+ * @param  string $source
+ * @return array
+ */
 function transform_source($source)
 {
     $source_obj = json_decode($source);
@@ -121,6 +140,12 @@ function transform_source($source)
 }//end transform_source()
 
 
+/**
+ * Combines data from the source to create an article title
+ *
+ * @param  array $source
+ * @return string         The html of the title
+ */
 function process_article_title($source)
 {
     $url   = $source['url'];
@@ -141,6 +166,12 @@ function process_article_title($source)
 }//end process_article_title()
 
 
+/**
+ * Generate comments html
+ *
+ * @param  array $comments
+ * @return string          The html for all the comments
+ */
 function generate_comments_html($comments)
 {
     $output = '';
@@ -175,6 +206,12 @@ function generate_comments_html($comments)
 }//end generate_comments_html()
 
 
+/**
+ * Contact API via curl
+ *
+ * @param  string $url url of the API
+ * @return string
+ */
 function get_new_source($url)
 {
     $ch = curl_init();
