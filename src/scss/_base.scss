@@ -7,14 +7,21 @@ body {
     height: 100%;
 }
 
+html {
+    font-family: $font__main;
+    font-size: 112.5%;
+    line-height: $font__base-line-height;
+    color: $color__text-default;
+
+    @include bp(tablet-landscape) {
+        font-size: 125%;
+    }
+}
+
 body {
     margin: 0;
     padding: 0;
     background: $color__background;
-    color: $color__text-default;
-    font-family: $font__main;
-    font-size: 100%;
-    line-height: $font__base-line-height;
 }
 
 a {
@@ -67,7 +74,7 @@ footer {
     color: #fff;
     margin: 0;
     padding: 1rem 0;
-    font-size: 1em;
+    font-size: 1rem;
 }
 
 .primary-title__link {
@@ -84,10 +91,10 @@ footer {
 
 .primary-title__text {
     flex: 1 0 auto;
-    font-size: 1.2em;
+    font-size: 1.2rem;
 
     @include bp(tablet-landscape) {
-        font-size: 1.6em;
+        font-size: 1.6rem;
     }
 }
 
@@ -120,16 +127,16 @@ footer {
         content: '';
         display: block;
         width: unquote("-webkit-calc(100% - 46px)");
-        margin: 1em 0 0 46px;
+        margin: 1rem 0 0 46px;
         height: 1px;
-        background-color: #ccc;
+        background-color: $color__lightest;
         text-align: right;
 
         @include bp(tablet-landscape) {
             width: unquote("-webkit-calc(100% - 62px)");
             width: unquote("-moz-calc(100% - 62px)");
             width: unquote("calc(100% - 62px)");
-            margin: 1.5em 0 0 62px;
+            margin: 1.5rem 0 0 62px;
         }
     }
 
@@ -144,7 +151,7 @@ footer {
     text-decoration: none;
 
     @include bp(tablet-landscape) {
-        font-size: 1.2em;
+        font-size: 1.2rem;
     }
 
     &:visited {
@@ -181,7 +188,7 @@ footer {
 }
 
 .links-list__source {
-    color: $color__mid;
+    color: $color__lighter;
     display: block;
     font-style: italic;
 
@@ -199,7 +206,7 @@ footer {
     color: $color__dark;
     line-height: 30px;
     text-align: center;
-    font-size: 0.875em;
+    font-size: 16px;
     transition: border 0.2s linear;
 }
 
@@ -207,22 +214,22 @@ footer {
     display: inline-block;
     margin-left: 46px;
     color: $color__mid;
-    font-size: 0.875em;
+    font-size: 0.875rem;
 
     @include bp(tablet-landscape) {
         margin-left: 62px;
-        font-size: 1em;
+        font-size: 1rem;
     }
 }
 
 .links-list__comments {
     display: inline-block;
-    margin-left: 1em;
-    font-size: 0.875em;
+    margin-left: 1rem;
+    font-size: 0.875rem;
     text-decoration: none;
 
     @include bp(tablet-landscape) {
-        font-size: 1em;
+        font-size: 1rem;
     }
 }
 
@@ -232,8 +239,8 @@ footer {
 
 .article-title {
     position: relative;
-    margin: 0 0 1em 0;
-    padding: 0 0 1em 0;
+    margin: 0 0 1rem 0;
+    padding: 0 0 1rem 0;
     font-size: 1.2rem;
     line-height: 1.2;
 
@@ -280,7 +287,9 @@ footer {
 
     // Comment markup comes from HN
     p {
+        max-width: $font__max_text_line_length;
         margin: 0;
+        word-wrap: break-word;
 
         &:empty {
             display: none;
@@ -298,16 +307,16 @@ footer {
 
     pre {
         margin: 1rem 0;
-        background: $color__light;
-        padding: 0.5em;
+        padding: 0.5rem;
         overflow: auto;
+        background: $color__off-white;
     }
 
     code {
         padding: 0;
         margin: 0;
         font-family: $font__code;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
     }
 }
 
@@ -319,8 +328,8 @@ footer {
     padding: 3px 8px;
     margin-right: 0.5rem;
     border-radius: 4px;
-    background: $color__light;
-    color: $color__dark;
+    background: $color__lightest;
+    color: $color__darkest;
     font-size: 0.875em;
 }
 

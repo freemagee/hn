@@ -1,22 +1,30 @@
 // Font settings
-$font__main: 'Open Sans', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif !default;
+$font__main: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !default;
 $font__code: 'Courier New', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Monaco', monospace !default;
 $font__base-line-height: 1.5 !default;
+$font__max_text_line_length: 620px !default;
 
 // Colour Variables
 $color__accent: #ff6600 !default;//HN Orange
-$color__light: #f1f1f1 !default;
-$color__mid: #999 !default;
-$color__dark: #333 !default;
 
-$color__background: #f1f1f1 !default;
+// Shades of black
+$color__off-white: #f5f5f5 !default;
+$color__lightest: #D6D6D6 !default;
+$color__lighter: #B7B7B7 !default;
+$color__light: #999 !default;
+$color__mid: #7A7A7A !default;
+$color__dark: #5B5B5B !default;
+$color__darker: #3D3D3D !default;
+$color__darkest: #1f1f1f !default;
 
-$color__text-default: #444 !default;
-$color__text-link: #1e1e1e !default;
-$color__text-link-visited: #b8b8b8 !default;
-$color__text-link-hover: #ffa600 !default;
-$color__text-link-active: #ffa600 !default;
+$color__background: $color__off-white !default;
 
-$color__border-default: #ccc !default;
+$color__text-default: $color__darker !default;
+$color__text-link: $color__darker !default;
+$color__text-link-visited: $color__mid !default;
+$color__text-link-hover: $color__accent !default;
+$color__text-link-active: $color__accent !default;
+
+$color__border-default: $color__lighter !default;
 
 $layout__max-width: 1180px !default;
