@@ -126,17 +126,17 @@ footer {
     &:after {
         content: '';
         display: block;
-        width: unquote("-webkit-calc(100% - 46px)");
-        margin: 1rem 0 0 46px;
+        width: unquote("-webkit-calc(100% - 54px)");
+        margin: 1rem 0 0 54px;
         height: 1px;
         background-color: $color__lightest;
         text-align: right;
 
         @include bp(tablet-landscape) {
-            width: unquote("-webkit-calc(100% - 62px)");
-            width: unquote("-moz-calc(100% - 62px)");
-            width: unquote("calc(100% - 62px)");
-            margin: 1.5rem 0 0 62px;
+            width: unquote("-webkit-calc(100% - 66px)");
+            width: unquote("-moz-calc(100% - 66px)");
+            width: unquote("calc(100% - 66px)");
+            margin: 1.5rem 0 0 66px;
         }
     }
 
@@ -170,11 +170,15 @@ footer {
 }
 
 .links-list__content {
+    display: flex;
     overflow: hidden;
-    margin-left: 46px;
+    margin-left: 54px;
+    flex-direction: column;
 
     @include bp(tablet-landscape) {
-        margin-left: 62px;
+        margin-left: 66px;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }
 
@@ -183,7 +187,6 @@ footer {
 
     @include bp(tablet-landscape) {
         margin-right: 0.5rem;
-        line-height: 32px;
     }
 }
 
@@ -199,12 +202,12 @@ footer {
 
 .links-list__count {
     float: left;
-    height: 32px;
-    width: 32px;
+    height: 36px;
+    width: 36px;
     background-color: #fff;
     border: 1px solid $color__border-default;
     color: $color__dark;
-    line-height: 30px;
+    line-height: 34px;
     text-align: center;
     font-size: 16px;
     transition: border 0.2s linear;
@@ -212,12 +215,12 @@ footer {
 
 .links-list__posted {
     display: inline-block;
-    margin-left: 46px;
+    margin-left: 54px;
     color: $color__mid;
     font-size: 0.875rem;
 
     @include bp(tablet-landscape) {
-        margin-left: 62px;
+        margin-left: 66px;
         font-size: 1rem;
     }
 }
