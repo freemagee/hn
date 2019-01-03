@@ -12,13 +12,18 @@ include_once(realpath(__DIR__ . '/..') . '/src/inc/common_functions.php');
 $dir = realpath(__DIR__ . '/..') . '/src/data/';
 $source_file = $dir . 'articles.json';
 $output_file = $dir . 'comments.json';
+
+if (!file_exists($output_file)) {
+    create_file($dir, 'comments', 'json');
+}
+
 $source_data = file_get_contents($source_file);
 $source_obj = json_decode($source_data);
 $hn_article_list = object_to_array($source_obj);
 
-/*******************************************************************************
+/******************************************************************************
  * LOGIC
- ******************************************************************************/
+ *****************************************************************************/
 
 if (!empty($hn_article_list)) {
     $comments = array();
