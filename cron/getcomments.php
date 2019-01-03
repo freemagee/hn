@@ -10,7 +10,7 @@ include_once(realpath(__DIR__ . '/..') . '/src/inc/common_functions.php');
  ******************************************************************************/
 
 $dir = realpath(__DIR__ . '/..') . '/src/data/';
-$source_file = $dir . 'data.json';
+$source_file = $dir . 'articles.json';
 $output_file = $dir . 'comments.json';
 $source_data = file_get_contents($source_file);
 $source_obj = json_decode($source_data);

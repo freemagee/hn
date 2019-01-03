@@ -9,7 +9,7 @@ include_once(realpath(__DIR__) . '/src/inc/common_functions.php');
 * VARIABLES
  ******************************************************************************/
 $dir = dirname(__FILE__);
-$source_file = file_get_contents($dir . '/src/data/data.json');
+$source_file = file_get_contents($dir . '/src/data/articles.json');
 $source_obj = json_decode($source_file);
 $source = object_to_array($source_obj);
 $html = make_hn_list($source);
