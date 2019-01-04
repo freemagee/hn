@@ -1,3 +1,8 @@
+:root {
+    --logoSize: 36px;
+    --countSize: 36px;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -13,7 +18,7 @@ html {
     line-height: $font__base-line-height;
     color: $color__text-default;
 
-    @include bp(tablet-landscape) {
+    @include bp(tablet) {
         font-size: 125%;
     }
 }
@@ -44,10 +49,10 @@ a {
 
 header {
     background: $color__accent;
-    padding: 0 1rem;
+    padding: 1rem;
 
     @include bp(tablet-landscape) {
-        padding: 0 1.5rem;
+        padding: 1.5rem;
     }
 }
 
@@ -71,17 +76,13 @@ footer {
 }
 
 .primary-title {
-    color: #fff;
     margin: 0;
-    padding: 1rem 0;
-    font-size: 1rem;
 }
 
 .primary-title__link {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #fff;
 
     &:visited,
     &:hover {
@@ -92,21 +93,32 @@ footer {
 .primary-title__text {
     flex: 1 0 auto;
     font-size: 1.2rem;
+    color: #fff;
+}
 
-    @include bp(tablet-landscape) {
-        font-size: 1.6rem;
+.primary-title__text--compact {
+    @include bp(phablet) {
+        display: none;
+    }
+}
+
+.primary-title__text--full {
+    display: none;
+
+    @include bp(phablet) {
+        display: block;
     }
 }
 
 .primary-title__logo {
-    flex: 0 1 32px;
-    width: 32px;
-    height: 32px;
+    flex: 0 1 var(--logoSize);
+    width: var(--logoSize);
+    height: var(--logoSize);
     margin: 0 1rem 0 0;
     border: 1px solid #fff;
 
     @include bp(tablet-landscape) {
-        margin: 0 2rem 0 0;
+        margin: 0 1.5rem 0 0;
     }
 }
 
@@ -117,26 +129,30 @@ footer {
 }
 
 .links-list__item {
-    margin: 1rem;
+    padding: 1rem 1rem 0;
 
     @include bp(tablet-landscape) {
-        margin: 1.5rem;
+        padding: 1.5rem 1.5rem 0;
     }
 
     &:after {
         content: '';
         display: block;
-        width: unquote("-webkit-calc(100% - 54px)");
-        margin: 1rem 0 0 54px;
+        margin: 1rem 0 0 calc(var(--countSize) + 1rem);
         height: 1px;
         background-color: $color__lightest;
         text-align: right;
 
         @include bp(tablet-landscape) {
-            width: unquote("-webkit-calc(100% - 66px)");
-            width: unquote("-moz-calc(100% - 66px)");
-            width: unquote("calc(100% - 66px)");
-            margin: 1.5rem 0 0 66px;
+            margin: 1.5rem 0 0 calc(var(--countSize) + 1.5rem);
+        }
+    }
+
+    &:last-child {
+        padding-bottom: 1rem;
+
+        @include bp(tablet-landscape) {
+            padding-bottom: 1.5rem;
         }
     }
 
@@ -172,11 +188,11 @@ footer {
 .links-list__content {
     display: flex;
     overflow: hidden;
-    margin-left: 54px;
+    margin: 0 0 0 calc(var(--countSize) + 1rem);
     flex-direction: column;
 
     @include bp(tablet-landscape) {
-        margin-left: 66px;
+        margin: 0 0 0 calc(var(--countSize) + 1.5rem);
         flex-direction: row;
         flex-wrap: wrap;
     }
@@ -202,34 +218,51 @@ footer {
 
 .links-list__count {
     float: left;
-    height: 36px;
-    width: 36px;
+    height: var(--countSize);
+    width: var(--countSize);
     background-color: #fff;
     border: 1px solid $color__border-default;
     color: $color__dark;
-    line-height: 34px;
+    line-height: calc(var(--countSize) - 2px);
     text-align: center;
-    font-size: 16px;
+    font-size: 0.875rem;
     transition: border 0.2s linear;
+}
+
+.links-list__meta {
+    display: flex;
+    overflow: hidden;
+    margin-left: calc(var(--countSize) + 1rem);
+    flex-direction: column;
+
+    @include bp(phablet) {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    @include bp(tablet-landscape) {
+        margin-left: calc(var(--countSize) + 1.5rem);
+    }
 }
 
 .links-list__posted {
     display: inline-block;
-    margin-left: 54px;
     color: $color__mid;
     font-size: 0.875rem;
 
     @include bp(tablet-landscape) {
-        margin-left: 66px;
         font-size: 1rem;
     }
 }
 
 .links-list__comments {
     display: inline-block;
-    margin-left: 1rem;
     font-size: 0.875rem;
     text-decoration: none;
+
+    @include bp(phablet) {
+        margin-left: 1rem;
+    }
 
     @include bp(tablet-landscape) {
         font-size: 1rem;
@@ -253,7 +286,7 @@ footer {
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 32px;
+        width: var(--logoSize);
         height: 4px;
         background-color: $color__accent;
     }
@@ -266,7 +299,6 @@ footer {
 .article-title__source {
     color: $color__mid;
     display: block;
-    font-size: 1rem;
     font-style: italic;
     font-weight: normal;
 
@@ -286,7 +318,6 @@ footer {
 
 .comment {
     margin-bottom: 1rem;
-    font-size: 1rem;
 
     // Comment markup comes from HN
     p {
@@ -328,7 +359,7 @@ footer {
 }
 
 .comment__user {
-    padding: 3px 8px;
+    padding: 0.2em 0.5em;
     margin-right: 0.5rem;
     border-radius: 4px;
     background: $color__lightest;

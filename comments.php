@@ -244,7 +244,7 @@ function get_new_source($url)
         <meta name="description" content="Just the links from Hacker News, optimised for small screens and mobile devices.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="shortcut icon" href="favicon.ico">
-        <link rel="stylesheet" href="src/css/main.css">
+        <link rel="stylesheet" href="./static/css/main.css">
     </head>
     <body>
         <div class="container">
