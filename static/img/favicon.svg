@@ -1,0 +1,26 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f60;
+      }
+
+      .cls-2, .cls-3 {
+        fill: none;
+        stroke: #fff;
+        stroke-miterlimit: 10;
+        stroke-width: 25px;
+      }
+
+      .cls-2 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <title>favicon</title>
+  <rect class="cls-1" width="400" height="400"/>
+  <g>
+    <polyline class="cls-2" points="95 305 95 95 305 95 305 305"/>
+    <line class="cls-3" x1="200" y1="190" x2="200" y2="305"/>
+  </g>
+</svg>

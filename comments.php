@@ -243,7 +243,13 @@ function get_new_source($url)
         <title>Responsive Hacker News | Comments</title>
         <meta name="description" content="Just the links from Hacker News, optimised for small screens and mobile devices.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ff6600">
+
         <link rel="shortcut icon" href="favicon.ico">
+        <link rel="apple-touch-icon" sizes="180x180" href="./static/img/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./static/img/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./static/img/favicon-16x16.png">
+
         <link rel="stylesheet" href="./static/css/main.css">
     </head>
     <body>
