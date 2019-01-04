@@ -10,7 +10,7 @@ At first I scraped the site, that kinda worked, but was hard to maintain. The cu
 
 Designed to be simple, in an easy to read view, suitable for small screens and mobile devices. Just the articles and comments.
 
-####Note
+**Note**
 
 This is not a full like for like copy of Hacker News. Just the top 60 articles and the relevant comments are available. No accounts or anything functional is provided. 
 
