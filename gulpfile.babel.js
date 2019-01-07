@@ -5,8 +5,9 @@ import sass from "gulp-sass";
 import sourcemaps from "gulp-sourcemaps";
 // POST CSS
 import postcss from "gulp-postcss";
-import cssnext from "postcss-cssnext";
 import cssnano from "cssnano";
+import fontMagician from "postcss-font-magician";
+import postcssPresetEnv from "postcss-preset-env";
 // Define other utilities
 import notify from "gulp-notify";
 import plumber from "gulp-plumber";
@@ -77,10 +78,34 @@ const changeEvent = (path, type) => {
 // SASS
 // =============================================================================
 function styles() {
-  const nanoOptions = {
-    zindex: false
+  const sassConfig = {
+    outputStyle: "expanded"
   };
-  const processors = [cssnext(), cssnano(nanoOptions)];
+  // const fontMagicianConfig = {
+  //   variants: {
+  //     "Source Sans Pro": {
+  //       "400": ["woff2"],
+  //       "400 italic": ["woff2"],
+  //       "700": ["woff2"]
+  //     }
+  //   }
+  // };
+  const fontMagicianConfig = {
+    variants: {
+      Ubuntu: {
+        "400": ["woff2"],
+        "400 italic": ["woff2"],
+        "700": ["woff2"]
+      },
+      "Ubuntu Mono": {
+        "400": ["woff2"]
+      }
+    },
+    foundries: "google",
+    protocol: "https:"
+  };
+  //const processors = [cssnano(), fontMagician(fontMagicianConfig)];
+  const processors = [fontMagician(fontMagicianConfig), postcssPresetEnv()];
 
   // Taking the path from the paths object
   return (
@@ -94,7 +119,7 @@ function styles() {
       )
       .pipe(sourcemaps.init())
       // Sass
-      .pipe(sass())
+      .pipe(sass(sassConfig))
       // Process with PostCSS - autoprefix & minify
       .pipe(postcss(processors))
       .pipe(sourcemaps.write("."))
