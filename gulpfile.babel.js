@@ -81,15 +81,6 @@ function styles() {
   const sassConfig = {
     outputStyle: "expanded"
   };
-  // const fontMagicianConfig = {
-  //   variants: {
-  //     "Source Sans Pro": {
-  //       "400": ["woff2"],
-  //       "400 italic": ["woff2"],
-  //       "700": ["woff2"]
-  //     }
-  //   }
-  // };
   const fontMagicianConfig = {
     variants: {
       Ubuntu: {
@@ -104,8 +95,11 @@ function styles() {
     foundries: "google",
     protocol: "https:"
   };
-  //const processors = [cssnano(), fontMagician(fontMagicianConfig)];
-  const processors = [fontMagician(fontMagicianConfig), postcssPresetEnv()];
+  const processors = [
+    fontMagician(fontMagicianConfig),
+    postcssPresetEnv(),
+    cssnano()
+  ];
 
   // Taking the path from the paths object
   return (
