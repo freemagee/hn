@@ -115,7 +115,11 @@ function find_article_comments($source_file, $id)
 {
     $output = transform_source($source_file);
 
-    if (is_null($output[$id])) {
+    if (isset($output[$id]) === false) {
+        return null;
+    }
+
+    if (is_null($output[$id]) === true) {
         return null;
     }
 
