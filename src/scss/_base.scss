@@ -1,6 +1,6 @@
 :root {
-    --logo-size: 24px;
-    --count-size: 24px;
+    --logo-size: 30px;
+    --count-size: 30px;
 }
 
 @include bp(tablet) {
@@ -209,10 +209,12 @@ footer {
 
 .links-list__title {
     font-size: 1.2rem;
-    line-height: 1.2;
+    line-height: 1.4;
+    margin-bottom: 0.25rem;
 
     @include bp(tablet-landscape) {
         margin-right: 0.5rem;
+        margin-bottom: 0;
         line-height: 1.5;
     }
 }
@@ -345,7 +347,7 @@ footer {
         padding: 0;
         margin: 0;
         font-family: $font__code;
-        font-size: 0.75rem;
+        //font-size: 0.75rem;
     }
 }
 
