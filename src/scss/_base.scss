@@ -271,22 +271,10 @@ footer {
 }
 
 .article-title {
-  position: relative;
-  margin: 0 0 1rem 0;
+  margin: 0;
   padding: 0 0 1rem 0;
   font-size: 1.2rem;
   line-height: 1.2;
-
-  &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: var(--logo-size);
-    height: 4px;
-    background-color: $color__accent;
-  }
 }
 
 .article-title__link {
@@ -351,9 +339,18 @@ footer {
 }
 
 .comment[data-level="0"] {
-  .comment__user {
-    color: $color__accent;
-    border-left-color: $color__accent;
+  position: relative;
+  padding: 1rem 0 0 0;
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: var(--logo-size);
+    height: 4px;
+    background-color: $color__accent;
   }
 }
 
