@@ -351,8 +351,9 @@ footer {
     position: absolute;
     top: 0;
     left: 0;
-    width: $font__max_text_line_length;
-    height: 2px;
+    width: 100%;
+    max-width: $font__max_text_line_length;
+    height: 1px;
     background-color: $color__lightest;
   }
 
