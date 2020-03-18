@@ -192,11 +192,13 @@ function generate_comments_html($comments)
 
             $output .= '<span class="comment__time-ago">'.$comments[$key]['time_ago'].'</span>';
             $output .= '</div>';
-            if ($comments[$key]['content'] === '[deleted]') {
-                $output .= '<p>'.$comments[$key]['content'].'</p>';
-            } else {
-                $output .= $comments[$key]['content'];
-            }
+            // TODO: Remove? I think that process_content now handles this logic by wrapping sentences in p tags
+            // if ($comments[$key]['content'] === '[deleted]') {
+            //     $output .= '<p>'.$comments[$key]['content'].'</p>';
+            // } else {
+            //     $output .= process_content($comments[$key]['content']);
+            // }
+            $output .= process_content($comments[$key]['content']);
 
             $output .= '</div>';
             if (array_key_exists('comments', $comments[$key]) && !empty($comments[$key]['comments'])) {
@@ -236,6 +238,29 @@ function get_new_source($url)
     return $output;
 
 }//end get_new_source()
+
+/**
+ * Take the provided content and parse the html and output in p tags
+ *
+ * @param  string $content The provided content.
+ * @return string
+ */
+function process_content($content)
+{
+    $sentences = explode('<p>', $content);
+    $output = '';
+    $limit = count($sentences);
+
+    for ($i = 0; $i < $limit; $i++) {
+        $sentence = strip_tags($sentences[$i], '<pre><code><a>');
+        if (substr($sentence, 0, 4) === '&gt;') {
+            $sentence = '<em>'.$sentence.'</em>';
+        }
+        $output .= '<p>'.$sentence.'</p>';
+    }
+
+    return $output;
+}//end process_content()
 
 
 ?>
