@@ -322,19 +322,22 @@ footer {
   a {
     overflow-wrap: break-word;
     word-wrap: break-word;
+    text-decoration-style: dotted;
   }
 
   pre {
     margin: 1rem 0;
-    padding: 0.5rem;
+    padding: 1rem;
     overflow: auto;
     background: $color__off-white;
+    border: 4px solid $color__lightest;
   }
 
   code {
     padding: 0;
     margin: 0;
     font-family: $font__code;
+    color: $color__text-code;
   }
 }
 
@@ -348,8 +351,13 @@ footer {
     position: absolute;
     top: 0;
     left: 0;
-    width: var(--logo-size);
-    height: 4px;
+    width: $font__max_text_line_length;
+    height: 2px;
+    background-color: $color__lightest;
+  }
+
+  .comment__user {
+    color: #fff;
     background-color: $color__accent;
   }
 }
@@ -359,11 +367,11 @@ footer {
 }
 
 .comment__user {
-  padding: 0 0 0 0.5rem;
+  padding: 0.2rem 0.5rem;
   margin-right: 0.5rem;
   color: $color__darkest;
   font-weight: 700;
-  border-left: 2px solid $color__lightest;
+  background-color: $color__lightest;
 }
 
 .comment__time-ago {
@@ -371,9 +379,9 @@ footer {
   color: $color__mid;
 }
 
-@for $i from 1 through 15 {
+@for $i from 1 through 20 {
   [data-level="#{$i}"] {
-    padding-left: $i * 1rem;
+    padding-left: $i * 0.5rem;
   }
 }
 

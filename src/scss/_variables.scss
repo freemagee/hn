@@ -17,9 +17,10 @@ $color__dark: #5b5b5b !default;
 $color__darker: #3d3d3d !default;
 $color__darkest: #1f1f1f !default;
 
-$color__background: $color__off-white !default;
+$color__background: $color__lightest !default;
 
-$color__text-default: $color__darker !default;
+$color__text-default: $color__darkest !default;
+$color__text-code: $color__darker !default;
 $color__text-link: $color__darkest !default;
 $color__text-link-visited: $color__light !default;
 $color__text-link-hover: $color__accent !default;

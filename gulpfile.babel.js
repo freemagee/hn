@@ -154,7 +154,7 @@ gulp.task("watch", watch);
 // =============================================================================
 const startServer = () => {
   browserSync.init({
-    proxy: "http://hn.localhost/public_html/"
+    proxy: "http://hn.localhost/"
   });
 };
 const serve = gulp.series(startServer);
