@@ -275,21 +275,32 @@ footer {
   padding: 0 0 1rem 0;
   font-size: 1.2rem;
   line-height: 1.2;
-}
 
-.article-title__link {
-  text-decoration: none;
-}
+  &__link {
+    text-decoration: none;
+  }
 
-.article-title__source {
-  display: block;
-  color: $color__lighter;
-  font-weight: 400;
-  font-style: italic;
+  &__meta {
+    display: flex;
+    padding-top: 0.2rem;
+    align-items: center;
+  }
 
-  @include bp(tablet-landscape) {
-    display: inline;
-    padding-left: 0.5rem;
+  &__source {
+    display: block;
+    color: $color__lighter;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  &__comments {
+    margin-left: 1rem;
+    padding-left: 1rem;
+    border-left: 1px solid $color__lightest;
+    color: $color__lighter;
+    font-size: 16px;
+    font-weight: 400;
   }
 }
 
@@ -315,7 +326,7 @@ footer {
     }
   }
 
-  p + p {
+  p+p {
     margin: 1rem 0 0 0;
   }
 
@@ -418,11 +429,11 @@ footer {
 .no-comments {
   padding: 1rem;
 
-  > h3 {
+  >h3 {
     margin: 0 0 0.5rem 0;
   }
 
-  > p {
+  >p {
     margin: 0;
   }
 }

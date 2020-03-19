@@ -154,6 +154,7 @@ function process_article_title($source)
 {
     $url   = $source['url'];
     $title = $source['title'];
+    $comments_count = $source['comments_count'];
 
     if (isset($source['domain'])) {
         $domain = $source['domain'];
@@ -162,7 +163,7 @@ function process_article_title($source)
     }
 
     $output  = '<h2 class="article-title">';
-    $output .= '<a href="'.$url.'" class="article-title__link">'.$title.'</a><span class="article-title__source">'.$domain.'</span>';
+    $output .= '<a href="'.$url.'" class="article-title__link">'.$title.'</a><span class="article-title__meta"><span class="article-title__source">'.$domain.'</span><span class="article-title__comments">'.$comments_count.' comments</span></span>';
     $output .= '</h2>';
 
     return $output;
@@ -251,7 +252,7 @@ function process_content($content)
     $output = '';
     $limit = count($sentences);
 
-    for ($i = 0; $i < $limit; $i++) {
+    for ($i = 1; $i < $limit; $i++) {
         $sentence = strip_tags($sentences[$i], '<pre><code><a>');
         if (substr($sentence, 0, 4) === '&gt;') {
             $sentence = '<em>'.$sentence.'</em>';
