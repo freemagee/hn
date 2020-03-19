@@ -116,7 +116,7 @@ function styles() {
       .pipe(sass(sassConfig))
       // Process with PostCSS - autoprefix & minify
       .pipe(postcss(processors))
-      .pipe(sourcemaps.write("."))
+      .pipe(sourcemaps.write())
       // Finally output a css file
       .pipe(gulp.dest(paths.styles.dest))
       // Inject into browser

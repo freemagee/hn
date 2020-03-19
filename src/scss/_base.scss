@@ -339,6 +339,10 @@ footer {
     font-family: $font__code;
     color: $color__text-code;
   }
+
+  em {
+    color: $color__dark;
+  }
 }
 
 .comment[data-level="0"] {
@@ -368,7 +372,8 @@ footer {
 }
 
 .comment__user {
-  padding: 0.2rem 0.5rem;
+  display: inline-block;
+  padding: 0.1rem 0.3rem;
   margin-right: 0.5rem;
   color: $color__darkest;
   font-weight: 700;
@@ -382,7 +387,13 @@ footer {
 
 @for $i from 1 through 20 {
   [data-level="#{$i}"] {
-    padding-left: $i * 0.5rem;
+    padding-left: 0.5rem;
+    margin-left: $i * 0.75rem;
+    border-left: 1px solid $color__lightest;
+
+    .comment__user {
+      margin-left: -0.5rem;
+    }
   }
 }
 
