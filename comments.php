@@ -3,7 +3,7 @@
  * INCLUDES
  */
 
-require_once realpath(__DIR__).'/src/inc/common_functions.php';
+require_once realpath(__DIR__).'/inc/common_functions.php';
 
 /*
  * VARIABLES
@@ -79,7 +79,7 @@ function validate_source($id)
 {
     // First look at local file system for json. JSON is typically already there because of a cron job on /cron/getcomments.php
     $dir              = dirname(__FILE__);
-    $source_file      = file_get_contents($dir.'/src/data/comments.json');
+    $source_file      = file_get_contents($dir.'/../data/comments.json');
     $id_is_undefined  = false;
     $article_comments = null;
 
@@ -284,9 +284,9 @@ function process_content($content)
     </head>
     <body>
         <div class="container">
-            <?php require_once realpath(__DIR__).'/src/inc/header.php'; ?>
+            <?php require_once realpath(__DIR__).'/inc/header.php'; ?>
             <?php echo $html; ?>
-            <?php require_once realpath(__DIR__).'/src/inc/footer.php'; ?>
+            <?php require_once realpath(__DIR__).'/inc/footer.php'; ?>
         </div>
     </body>
 </html>
