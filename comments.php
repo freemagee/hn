@@ -1,4 +1,8 @@
 <?php
+/**
+ * Generate a comments page for the given story ID
+ */
+
 /*
  * INCLUDES
  */
@@ -9,8 +13,8 @@ require_once realpath(__DIR__).'/inc/common_functions.php';
  * VARIABLES
  */
 
-$_GET       = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
-$article_id = $_GET['id'];
+$_GET      = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+$articleId = $_GET['id'];
 
 /*
  * LOGIC
@@ -18,25 +22,25 @@ $article_id = $_GET['id'];
 
 // Check id matched pattern, this may need to be more adaptable for the future. Also check the source data and format it.
 try {
-    if (validate_id($article_id) === false) {
+    if (validateId($articleId) === false) {
         throw new Exception('Article ID is not valid');
     }
 
-    $the_source = validate_source($article_id);
+    $theSource = validateSource($articleId);
 
-    if (is_null($the_source) === true) {
+    if ($theSource === null) {
         throw new Exception('Unable to retrieve comments');
     }
 
-    $the_title    = process_article_title($the_source);
-    $the_comments = $the_source['comments'];
+    $theTitle    = processArticleTitle($theSource);
+    $theComments = $theSource['comments'];
 
-    if (empty($the_comments) === true) {
+    if (empty($theComments) === true) {
         throw new Exception('Article has no comments yet');
     }
 
     $html  = '<div class="comments">';
-    $html .= $the_title.generate_comments_html($the_comments);
+    $html .= $theTitle.generateCommentsHtml($theComments);
     $html .= '</div>';
 } catch (Exception $e) {
     $html  = '<div class="no-comments">';
@@ -53,18 +57,19 @@ try {
 /**
  * Run a regex against the ID parameter
  *
- * @param  string $id
+ * @param string $id The id of the item.
+ *
  * @return boolean
  */
-function validate_id($id)
+function validateId(string $id)
 {
-    if (preg_match('/^[0-9]{8}$/', $id)) {
+    if (preg_match('/^[0-9]{8}$/', $id) === true) {
         return true;
     }
 
     return false;
 
-}//end validate_id()
+}//end validateId()
 
 
 /**
@@ -72,120 +77,125 @@ function validate_id($id)
  *
  * The return value from the JSON or the array should be identical. If the API fails, then NULL is returned and the application should show an error state.
  *
- * @param  string $id
+ * @param string $id The id of the item.
+ *
  * @return mixed     Either an array or NULL
  */
-function validate_source($id)
+function validateSource(string $id)
 {
-    // First look at local file system for json. JSON is typically already there because of a cron job on /cron/getcomments.php
-    $dir              = dirname(__FILE__);
-    $source_file      = file_get_contents($dir.'/../data/comments.json');
-    $id_is_undefined  = false;
-    $article_comments = null;
+    // First look at local file system for json. JSON is typically already there because of a cron job on /cron/getcomments.php.
+    $dir           = dirname(__FILE__);
+    $sourceFile    = file_get_contents($dir.'/../data/comments.json');
+    $idIsUndefined = false;
+    $theComments   = null;
 
-    if ($source_file !== false) {
-        // $source_file will contain all current article comments, so the id is used to get this articles comments. Will be null if no articles are found
-        $article_comments = find_article_comments($source_file, $id);
+    if ($sourceFile !== false) {
+        // $sourceFile will contain all current article comments, so the id is used to get this articles comments. Will be null if no articles are found
+        $theComments = findComments($sourceFile, $id);
     }
 
-    if ($source_file !== false && is_null($article_comments) !== true) {
-        return $article_comments;
+    if ($sourceFile !== false && $theComments !== null) {
+        return $theComments;
     }
 
     // Should only get to here if comments json does not exist or $id can not be found inside json file. The result is the same, an API call.
-    $new_source = get_new_source('http://node-hnapi.herokuapp.com/item/'.$id);
+    $newSource = getNewSource('http://node-hnapi.herokuapp.com/item/'.$id);
 
-    if (is_null($new_source) === true) {
+    if ($newSource === null) {
         return null;
     } else {
-        return $new_source;
+        return $newSource;
     }
 
-}//end validate_source()
+}//end validateSource()
 
 
 /**
  * Find the specified child node in an array
  *
- * @param  string $source_file
- * @param  string $id
+ * @param string $sourceFile String of json.
+ * @param string $id         The comment ID.
+ *
  * @return mixed     Either an array or NULL
  */
-function find_article_comments($source_file, $id)
+function findComments(string $sourceFile, string $id)
 {
-    $output = transform_source($source_file);
+    $output = transformSource($sourceFile);
 
     if (isset($output[$id]) === false) {
         return null;
     }
 
-    if (is_null($output[$id]) === true) {
+    if ($output[$id] === null) {
         return null;
     }
 
     return $output[$id];
 
-}//end find_article_comments()
+}//end findComments()
 
 
 /**
- * Transforms string of json into and array
+ * Transforms string of json into an array
  *
- * @param  string $source
+ * @param string $json The json string.
+ *
  * @return array
  */
-function transform_source($source)
+function transformSource(string $json)
 {
-    $source_obj = json_decode($source);
-    $output     = object_to_array($source_obj);
+    $sourceObj = json_decode($json);
+    $output    = objectToArray($sourceObj);
 
     return $output;
 
-}//end transform_source()
+}//end transformSource()
 
 
 /**
  * Combines data from the source to create an article title
  *
- * @param  array $source
+ * @param array $story Story data in an array.
+ *
  * @return string         The html of the title
  */
-function process_article_title($source)
+function processArticleTitle(array $story)
 {
-    $url   = $source['url'];
-    $title = $source['title'];
-    $comments_count = $source['comments_count'];
+    $url           = $story['url'];
+    $title         = $story['title'];
+    $commentsCount = $story['comments_count'];
 
-    if (isset($source['domain'])) {
-        $domain = $source['domain'];
+    if (isset($story['domain']) === true) {
+        $domain = $story['domain'];
     } else {
         $domain = 'news.ycombinator.com';
     }
 
     $output  = '<h2 class="article-title">';
-    $output .= '<a href="'.$url.'" class="article-title__link">'.$title.'</a><span class="article-title__meta"><span class="article-title__source">'.$domain.'</span><span class="article-title__comments">'.$comments_count.' comments</span></span>';
+    $output .= '<a href="'.$url.'" class="article-title__link">'.$title.'</a><span class="article-title__meta"><span class="article-title__source">'.$domain.'</span><span class="article-title__comments">'.$commentsCount.' comments</span></span>';
     $output .= '</h2>';
 
     return $output;
 
-}//end process_article_title()
+}//end processArticleTitle()
 
 
 /**
  * Generate comments html
  *
- * @param  array $comments
+ * @param array $comments An array of comments.
+ *
  * @return string          The html for all the comments
  */
-function generate_comments_html($comments)
+function generateCommentsHtml(array $comments)
 {
     $output = '';
 
     foreach ($comments as $key => $value) {
-        if (is_array($comments[$key])) {
+        if (is_array($comments[$key]) === true) {
             $output .= '<div class="comment" data-id="'.$comments[$key]['id'].'" data-level="'.$comments[$key]['level'].'">';
             $output .= '<div class="comment__meta">';
-            if (!empty($comments[$key]['user'])) {
+            if (empty($comments[$key]['user']) !== false) {
                 $output .= '<span class="comment__user">'.$comments[$key]['user'].'</span>';
             } else {
                 $output .= '<span class="comment__user">[anonymous]</span>';
@@ -193,27 +203,28 @@ function generate_comments_html($comments)
 
             $output .= '<span class="comment__time-ago">'.$comments[$key]['time_ago'].'</span>';
             $output .= '</div>';
-            $output .= process_content($comments[$key]['content']);
+            $output .= processContent($comments[$key]['content']);
 
             $output .= '</div>';
-            if (array_key_exists('comments', $comments[$key]) && !empty($comments[$key]['comments'])) {
-                $output .= generate_comments_html($comments[$key]['comments']);
+            if (array_key_exists('comments', $comments[$key]) === true && empty($comments[$key]['comments']) !== false) {
+                $output .= generateCommentsHtml($comments[$key]['comments']);
             }
         }//end if
     }//end foreach
 
     return $output;
 
-}//end generate_comments_html()
+}//end generateCommentsHtml()
 
 
 /**
  * Contact API via curl
  *
- * @param  string $url url of the API
+ * @param string $url The url of the API.
+ *
  * @return string
  */
-function get_new_source($url)
+function getNewSource(string $url)
 {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
@@ -225,26 +236,28 @@ function get_new_source($url)
     if (curl_errno($ch) !== 0) {
         $output = null;
     } else {
-        $output = transform_source($data);
+        $output = transformSource($data);
     }
 
     curl_close($ch);
 
     return $output;
 
-}//end get_new_source()
+}//end getNewSource()
+
 
 /**
  * Take the provided content and parse the html and output in p tags
  *
- * @param  string $content The provided content.
+ * @param string $content The provided content.
+ *
  * @return string
  */
-function process_content($content)
+function processContent(string $content)
 {
     $sentences = explode('<p>', $content);
-    $output = '';
-    $limit = count($sentences);
+    $output    = '';
+    $limit     = count($sentences);
 
     for ($i = 1; $i < $limit; $i++) {
         $sentence = strip_tags($sentences[$i], '<pre><code><a>');
@@ -252,13 +265,13 @@ function process_content($content)
         if (strpos($sentence, '<pre>') !== false) {
             $regex = '#<\s*?pre\b[^>]*>(.*?)</pre\b[^>]*>#s';
             preg_match($regex, $sentence, $matches);
-            $pre = $matches[0];
+            $pre    = $matches[0];
             $preEnd = strpos($sentence, '</pre>');
-            // The sentence is not only a <pre>...</pre>
+            // The sentence is not only a <pre>...</pre>.
             if (($preEnd + 6) !== strlen($sentence)) {
                 $followingSentence = substr($sentence, $preEnd);
-                $output .= $pre;
-                $output .= '<p>'.processQuotes($followingSentence).'</p>';
+                $output           .= $pre;
+                $output           .= '<p>'.processQuotes($followingSentence).'</p>';
             } else {
                 $output .= $pre;
             }
@@ -268,7 +281,8 @@ function process_content($content)
     }
 
     return $output;
-}//end process_content()
+
+}//end processContent()
 
 
 /**
@@ -278,7 +292,8 @@ function process_content($content)
  *
  * @return string
  */
-function processQuotes($text) {
+function processQuotes(string $text)
+{
     if (substr($text, 0, 4) === '&gt;') {
         $output = '<em>'.$text.'</em>';
     } else {
@@ -286,7 +301,8 @@ function processQuotes($text) {
     }
 
     return $output;
-}
+
+}//end processQuotes()
 
 
 ?>

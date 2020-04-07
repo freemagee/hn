@@ -1,56 +1,47 @@
 <?php
+
+
 /**
- * [pre_r | a pretty version of print_r - helps with debugging arrays]
- * @param  [array] $val
+ * A pretty version of print_r - helps with debugging arrays
+ *
+ * @param array $val An array to output.
+ *
+ * @return void
  */
-function pre_r($val){
+function prettyPrint(array $val)
+{
     echo '<pre>';
     print_r($val);
-    echo  '</pre>';
-}
+    echo '</pre>';
+
+}//end prettyPrint()
+
 
 /**
- * [object_to_array description]
- * @param  [type] $d [description]
- * @return [type]    [description]
+ * Turns an object into an array.
+ *
+ * @param object $obj The object.
+ *
+ * @return array
  */
-function object_to_array($d) {
-    if (is_object($d)) {
-        // Gets the properties of the given object
-        // with get_object_vars function
-        $d = get_object_vars($d);
+function objectToArray(object $obj)
+{
+    if (is_object($obj) === true) {
+        // Gets the properties of the given object with get_object_vars function.
+        $obj = get_object_vars($obj);
     }
 
-    if (is_array($d)) {
+    if (is_array($obj) === true) {
         /*
-        * Return array converted to object
-        * Using __FUNCTION__ (Magic constant)
-        * for recursive call
-        */
-        return array_map(__FUNCTION__, $d);
-    }
-    else {
-        // Return array
-        return $d;
-    }
-}
+         * Return array converted to object
+         * Using __FUNCTION__ (Magic constant)
+         * for recursive call
+         */
 
-/**
- * [create_file if file does not exist, create it]
- * @param  [str] $dir [path to place file]
- * @param  [str] $n   [file name]
- * @param  [str] $xt  [file extension]
- */
-function create_file($dir, $n, $xt) {
-    makeDir($dir);
-    fopen($dir . $n . '.' . $xt, "w");
-}
+        return array_map(__FUNCTION__, $obj);
+    } else {
+        // Return array.
+        return $obj;
+    }
 
-/**
- * Make dir helper checks dir exists then creates it.
- * @param  [str] $path [path to create]
- * @return
- */
-function makeDir($path) {
-    return is_dir($path) || mkdir($path);
-}
+}//end objectToArray()

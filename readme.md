@@ -12,9 +12,13 @@ Designed to be simple, in an easy to read view, suitable for small screens and m
 
 **Note**
 
-This is not a full like for like copy of Hacker News. Just the top 90 articles and the relevant comments are available. No accounts or anything functional is provided. Just a static page.
+This is not a full like for like copy of Hacker News. Just the top 60 articles and the relevant comments are available. No accounts or anything functional is provided. Just a static page.
 
 Mainly as I use this site in a browser with JavaScript disabled (I am more interested in reading the content). So it is quick to load and use.
+
+## Removal of cron tasks
+
+Previously I included the cron tasks that I ran to gather the data from various API endpoints (see credits). I believe this was a mistake as it opened up security issues. I have now removed them, and those tasks are handled by a third party service.
 
 ### Credits
 
