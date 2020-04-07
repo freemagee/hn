@@ -193,12 +193,6 @@ function generate_comments_html($comments)
 
             $output .= '<span class="comment__time-ago">'.$comments[$key]['time_ago'].'</span>';
             $output .= '</div>';
-            // TODO: Remove? I think that process_content now handles this logic by wrapping sentences in p tags
-            // if ($comments[$key]['content'] === '[deleted]') {
-            //     $output .= '<p>'.$comments[$key]['content'].'</p>';
-            // } else {
-            //     $output .= process_content($comments[$key]['content']);
-            // }
             $output .= process_content($comments[$key]['content']);
 
             $output .= '</div>';
@@ -254,14 +248,45 @@ function process_content($content)
 
     for ($i = 1; $i < $limit; $i++) {
         $sentence = strip_tags($sentences[$i], '<pre><code><a>');
-        if (substr($sentence, 0, 4) === '&gt;') {
-            $sentence = '<em>'.$sentence.'</em>';
+        // Sentence contains a <pre> so it should not be wrapped in a p.
+        if (strpos($sentence, '<pre>') !== false) {
+            $regex = '#<\s*?pre\b[^>]*>(.*?)</pre\b[^>]*>#s';
+            preg_match($regex, $sentence, $matches);
+            $pre = $matches[0];
+            $preEnd = strpos($sentence, '</pre>');
+            // The sentence is not only a <pre>...</pre>
+            if (($preEnd + 6) !== strlen($sentence)) {
+                $followingSentence = substr($sentence, $preEnd);
+                $output .= $pre;
+                $output .= '<p>'.processQuotes($followingSentence).'</p>';
+            } else {
+                $output .= $pre;
+            }
+        } else {
+            $output .= '<p>'.processQuotes($sentence).'</p>';
         }
-        $output .= '<p>'.$sentence.'</p>';
     }
 
     return $output;
 }//end process_content()
+
+
+/**
+ * If text starts with a >, then wrap it in an em tag
+ *
+ * @param string $text The text tp be processed.
+ *
+ * @return string
+ */
+function processQuotes($text) {
+    if (substr($text, 0, 4) === '&gt;') {
+        $output = '<em>'.$text.'</em>';
+    } else {
+        $output = $text;
+    }
+
+    return $output;
+}
 
 
 ?>
