@@ -28,7 +28,7 @@ try {
 
     $theSource = validateSource($articleId);
 
-    if ($theSource === null) {
+    if (empty($theSource) === true) {
         throw new Exception('Unable to retrieve comments');
     }
 
@@ -40,7 +40,8 @@ try {
     }
 
     $html  = '<div class="comments">';
-    $html .= $theTitle.generateCommentsHtml($theComments);
+    $html .= $theTitle;
+    $html .= generateCommentsHtml($theComments);
     $html .= '</div>';
 } catch (Exception $e) {
     $html  = '<div class="no-comments">';
@@ -63,7 +64,7 @@ try {
  */
 function validateId(string $id)
 {
-    if (preg_match('/^[0-9]{8}$/', $id) === true) {
+    if (preg_match('/^[0-9]{8}$/', $id) === 1) {
         return true;
     }
 
@@ -79,7 +80,7 @@ function validateId(string $id)
  *
  * @param string $id The id of the item.
  *
- * @return mixed     Either an array or NULL
+ * @return array
  */
 function validateSource(string $id)
 {
@@ -87,25 +88,26 @@ function validateSource(string $id)
     $dir           = dirname(__FILE__);
     $sourceFile    = file_get_contents($dir.'/../data/comments.json');
     $idIsUndefined = false;
-    $theComments   = null;
+    $theComments   = [];
 
     if ($sourceFile !== false) {
-        // $sourceFile will contain all current article comments, so the id is used to get this articles comments. Will be null if no articles are found
+        // $sourceFile will contain all current article comments, so the id is used to get this articles comments. Will be empty if no articles are found.
         $theComments = findComments($sourceFile, $id);
     }
 
-    if ($sourceFile !== false && $theComments !== null) {
+    // Comments array is not empty.
+    if (empty($theComments) === false) {
         return $theComments;
     }
 
-    // Should only get to here if comments json does not exist or $id can not be found inside json file. The result is the same, an API call.
-    $newSource = getNewSource('http://node-hnapi.herokuapp.com/item/'.$id);
+    // Should only get to here if comments json does not exist or $id can not be found inside json file. The resulting data is the same.
+    $newSource = getNewSource('https://node-hnapi.herokuapp.com/item/'.$id);
 
-    if ($newSource === null) {
-        return null;
-    } else {
+    if ($newSource !== null) {
         return $newSource;
     }
+
+    return [];
 
 }//end validateSource()
 
@@ -113,24 +115,24 @@ function validateSource(string $id)
 /**
  * Find the specified child node in an array
  *
- * @param string $sourceFile String of json.
- * @param string $id         The comment ID.
+ * @param string  $sourceFile String of json.
+ * @param integer $id         The comment ID.
  *
- * @return mixed     Either an array or NULL
+ * @return array
  */
-function findComments(string $sourceFile, string $id)
+function findComments(string $sourceFile, int $id)
 {
     $output = transformSource($sourceFile);
+    $limit  = count($output);
 
-    if (isset($output[$id]) === false) {
-        return null;
+    // Loop over the first level of items. Check for the provided id.
+    for ($i = 0; $i < $limit; $i++) {
+        if (isset($output[$i]) === true && $output[$i]['id'] === $id) {
+            return $output[$i];
+        }
     }
 
-    if ($output[$id] === null) {
-        return null;
-    }
-
-    return $output[$id];
+    return [];
 
 }//end findComments()
 
@@ -195,7 +197,8 @@ function generateCommentsHtml(array $comments)
         if (is_array($comments[$key]) === true) {
             $output .= '<div class="comment" data-id="'.$comments[$key]['id'].'" data-level="'.$comments[$key]['level'].'">';
             $output .= '<div class="comment__meta">';
-            if (empty($comments[$key]['user']) !== false) {
+
+            if (empty($comments[$key]['user']) === false) {
                 $output .= '<span class="comment__user">'.$comments[$key]['user'].'</span>';
             } else {
                 $output .= '<span class="comment__user">[anonymous]</span>';
@@ -204,9 +207,9 @@ function generateCommentsHtml(array $comments)
             $output .= '<span class="comment__time-ago">'.$comments[$key]['time_ago'].'</span>';
             $output .= '</div>';
             $output .= processContent($comments[$key]['content']);
-
             $output .= '</div>';
-            if (array_key_exists('comments', $comments[$key]) === true && empty($comments[$key]['comments']) !== false) {
+
+            if (array_key_exists('comments', $comments[$key]) === true && empty($comments[$key]['comments']) === false) {
                 $output .= generateCommentsHtml($comments[$key]['comments']);
             }
         }//end if
@@ -255,6 +258,10 @@ function getNewSource(string $url)
  */
 function processContent(string $content)
 {
+    if ($content === '[deleted]') {
+        return '<p>'.$content.'</p>';
+    }
+
     $sentences = explode('<p>', $content);
     $output    = '';
     $limit     = count($sentences);

@@ -20,11 +20,11 @@ function prettyPrint(array $val)
 /**
  * Turns an object into an array.
  *
- * @param object $obj The object.
+ * @param $obj The object.
  *
  * @return array
  */
-function objectToArray(object $obj)
+function objectToArray($obj)
 {
     if (is_object($obj) === true) {
         // Gets the properties of the given object with get_object_vars function.

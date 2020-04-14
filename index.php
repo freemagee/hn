@@ -14,8 +14,8 @@ require_once realpath(__DIR__).'/inc/common_functions.php';
  */
 
 $dir        = dirname(__FILE__);
-$sourceFile = fileGetContents($dir.'/../data/stories.json');
-$sourceObj  = jsonDecode($sourceFile);
+$sourceFile = file_get_contents($dir.'/../data/stories.json');
+$sourceObj  = json_decode($sourceFile);
 $source     = objectToArray($sourceObj);
 $html       = makeHnList($source);
 
@@ -37,54 +37,53 @@ function makeHnList(array $source)
     $url        = "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
     $escapedUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
 
-    if (empty($source) !== false) {
+    if (empty($source) === false) {
         $limit = count($source);
         $html  = '<ul class="links-list">';
 
         for ($i = 0; $i < $limit; $i++) {
-            if ($source[$i]['type'] !== 'job') {
-                $id    = $source[$i]['id'];
-                $title = $source[$i]['title'];
-                if (preg_match('/Ask HN:/', $title) === true
-                    || preg_match('/Show HN:/', $title) === true
-                    || preg_match('/Apply HN:/', $title) === true
-                ) {
-                    $link            = $escapedUrl.'comments.php?id='.$id;
-                    $hostDomainShort = 'news.ycombinator.com';
-                } else {
-                    $link            = $source[$i]['url'];
-                    $sourceUrl       = parse_url($link);
-                    $hostDomain      = $sourceUrl['host'];
-                    $hostDomainShort = str_replace('www.', '', $hostDomain);
-                }
+            $id    = $source[$i]['id'];
+            $title = $source[$i]['title'];
+            if (preg_match('/Ask HN:/', $title) === 1
+                || preg_match('/Show HN:/', $title) === 1
+                || preg_match('/Apply HN:/', $title) === 1
+                || preg_match('/Tell HN:/', $title) === 1
+            ) {
+                $link            = $escapedUrl.'comments.php?id='.$id;
+                $hostDomainShort = 'news.ycombinator.com';
+            } else {
+                $link            = $source[$i]['url'];
+                $sourceUrl       = parse_url($link);
+                $hostDomain      = $sourceUrl['host'];
+                $hostDomainShort = str_replace('www.', '', $hostDomain);
+            }
 
-                $delay = $source[$i]['time'];
-                if (empty($source[$i]['descendants']) !== false) {
-                    $commentsCount = $source[$i]['descendants'];
+            $delay = $source[$i]['time'];
+            if (empty($source[$i]['descendants']) === false) {
+                $commentsCount = $source[$i]['descendants'];
 
-                    $comments = '<a class="links-list__comments links-list__comments--has-comments" href="comments.php?id='.$id.'">'.$commentsCount.' comments</a>';
-                } else {
-                    $comments = '<span class="links-list__comments links-list__comments--no-comments">No comments</span>';
-                }
+                $comments = '<a class="links-list__comments links-list__comments--has-comments" href="comments.php?id='.$id.'">'.$commentsCount.' comments</a>';
+            } else {
+                $comments = '<span class="links-list__comments links-list__comments--no-comments">No comments</span>';
+            }
 
-                $posted = timeElapsed($today - $delay);
-                $number = ($i + 1);
+            $posted = timeElapsed($today - $delay);
+            $number = ($i + 1);
 
-                // Build news list item.
-                $html .= '<li class="links-list__item">';
-                $html .= '<a class="links-list__link" href="'.$link.'">';
-                $html .= '<div class="links-list__count">'.$number.'</div>';
-                $html .= '<div class="links-list__content">';
-                $html .= '<span class="links-list__title">'.$title.'</span>';
-                $html .= '<span class="links-list__source">'.$hostDomainShort.'</span>';
-                $html .= '</div>';
-                $html .= '</a>';
-                $html .= '<div class="links-list__meta">';
-                $html .= '<span class="links-list__posted">Posted: '.$posted.' ago</span>';
-                $html .= $comments;
-                $html .= '</div>';
-                $html .= '</li>';
-            }//end if
+            // Build news list item.
+            $html .= '<li class="links-list__item">';
+            $html .= '<a class="links-list__link" href="'.$link.'">';
+            $html .= '<div class="links-list__count">'.$number.'</div>';
+            $html .= '<div class="links-list__content">';
+            $html .= '<span class="links-list__title">'.$title.'</span>';
+            $html .= '<span class="links-list__source">'.$hostDomainShort.'</span>';
+            $html .= '</div>';
+            $html .= '</a>';
+            $html .= '<div class="links-list__meta">';
+            $html .= '<span class="links-list__posted">Posted: '.$posted.' ago</span>';
+            $html .= $comments;
+            $html .= '</div>';
+            $html .= '</li>';
         }//end for
 
         $html .= '</ul>';
@@ -103,11 +102,11 @@ function makeHnList(array $source)
 /**
  * Take a microtime and return a human readable string
  *
- * @param number $secs Unix time stamp.
+ * @param integer $secs Unix time stamp.
  *
  * @return string Time in human readable form.
  */
-function timeElapsed(number $secs)
+function timeElapsed(int $secs)
 {
     $bit = [
         'y' => ($secs / 31556926 % 12),
