@@ -1,0 +1,10 @@
+{
+  "require": {
+    "twig/twig": "^2.0"
+  },
+  "autoload": {
+    "files": [
+      "inc/common_functions.php"
+    ]
+  }
+}

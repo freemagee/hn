@@ -3,6 +3,7 @@
 .scssc
 .sass-cache/
 _archive/
-src/data/
 node_modules
 *.log
+cache
+vendor/*
