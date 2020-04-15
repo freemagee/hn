@@ -1,27 +1,20 @@
 <?php
-/**
- * Display a list of hacker news stories.
- */
+require_once realpath(__DIR__).'/vendor/autoload.php';
 
-/*
- * INCLUDES
- */
-
-require_once realpath(__DIR__).'/inc/common_functions.php';
-
-/*
- * VARIABLES
- */
-
-$dir        = dirname(__FILE__);
-$sourceFile = file_get_contents($dir.'/../data/stories.json');
-$sourceObj  = json_decode($sourceFile);
-$source     = objectToArray($sourceObj);
-$html       = makeHnList($source);
-
-/*
- * FUNCTIONS
- */
+$loader      = new \Twig\Loader\FilesystemLoader(realpath(__DIR__).'/static/twig');
+$twig        = new \Twig\Environment(
+    $loader,
+    [
+        'cache'       => realpath(__DIR__).'/cache',
+        'auto_reload' => true,
+    ]
+);
+$template    = $twig->load('index.html.twig');
+$dir         = dirname(__FILE__);
+$sourceFile  = file_get_contents($dir.'/../data/stories.json');
+$sourceObj   = json_decode($sourceFile);
+$source      = objectToArray($sourceObj);
+$storiesList = makeHnList($source);
 
 
 /**
@@ -38,8 +31,8 @@ function makeHnList(array $source)
     $escapedUrl = htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
 
     if (empty($source) === false) {
-        $limit = count($source);
-        $html  = '<ul class="links-list">';
+        $limit  = count($source);
+        $output = [];
 
         for ($i = 0; $i < $limit; $i++) {
             $id    = $source[$i]['id'];
@@ -60,41 +53,26 @@ function makeHnList(array $source)
 
             $delay = $source[$i]['time'];
             if (empty($source[$i]['descendants']) === false) {
-                $commentsCount = $source[$i]['descendants'];
-
-                $comments = '<a class="links-list__comments links-list__comments--has-comments" href="comments.php?id='.$id.'">'.$commentsCount.' comments</a>';
+                $commentsCount          = $source[$i]['descendants'];
+                $output[$i]['comments'] = $commentsCount;
             } else {
-                $comments = '<span class="links-list__comments links-list__comments--no-comments">No comments</span>';
+                $output[$i]['comments'] = 0;
             }
 
             $posted = timeElapsed($today - $delay);
             $number = ($i + 1);
 
             // Build news list item.
-            $html .= '<li class="links-list__item">';
-            $html .= '<a class="links-list__link" href="'.$link.'">';
-            $html .= '<div class="links-list__count">'.$number.'</div>';
-            $html .= '<div class="links-list__content">';
-            $html .= '<span class="links-list__title">'.$title.'</span>';
-            $html .= '<span class="links-list__source">'.$hostDomainShort.'</span>';
-            $html .= '</div>';
-            $html .= '</a>';
-            $html .= '<div class="links-list__meta">';
-            $html .= '<span class="links-list__posted">Posted: '.$posted.' ago</span>';
-            $html .= $comments;
-            $html .= '</div>';
-            $html .= '</li>';
+            $output[$i]['id']          = $id;
+            $output[$i]['link']        = $link;
+            $output[$i]['number']      = $number;
+            $output[$i]['title']       = $title;
+            $output[$i]['host_domain'] = $hostDomainShort;
+            $output[$i]['posted']      = $posted;
         }//end for
-
-        $html .= '</ul>';
-    } else {
-        $html  = '<div class="no-news">';
-        $html .= '<h3>No news!</h3>';
-        $html .= '<p>Unfortunately there has been an error displaying articles.</p>';
-        $html .= '</div>';
     }//end if
 
-    return $html;
+    return $output;
 
 }//end makeHnList()
 
@@ -127,29 +105,4 @@ function timeElapsed(int $secs)
 }//end timeElapsed()
 
 
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Responsive Hacker News</title>
-        <meta name="description" content="Just the links from Hacker News, optimised for small screens and mobile devices.">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ff6600">
-
-        <link rel="shortcut icon" href="favicon.ico">
-        <link rel="apple-touch-icon" sizes="180x180" href="./static/img/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="./static/img/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="./static/img/favicon-16x16.png">
-
-        <link rel="stylesheet" href="./static/css/main.css">
-    </head>
-    <body>
-        <div class="container">
-            <?php require_once realpath(__DIR__).'/inc/header.php'; ?>
-            <?php echo $html; ?>
-            <?php require_once realpath(__DIR__).'/inc/footer.php'; ?>
-        </div>
-    </body>
-</html>
+echo $template->render([ 'storiesList' => $storiesList ]);

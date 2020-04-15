@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+  {% if storiesList|length > 0 %}
+  <ul class="links-list">
+  {% for item in storiesList %}
+    {{ include("stories-list/item.html.twig") }}
+  {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if storiesList|length == 0 %}
+    {{ include("stories-list/error.html") }}
+  {% endif %}
+{% endblock %}

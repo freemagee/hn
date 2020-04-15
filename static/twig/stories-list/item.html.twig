@@ -1,0 +1,18 @@
+<li class="links-list__item">
+  <a class="links-list__link" href="{{ item.link }}">
+    <div class="links-list__count">{{ item.number }}</div>
+    <div class="links-list__content">
+      <span class="links-list__title">{{ item.title }}</span>
+      <span class="links-list__source">{{ item.host_domain }}</span>
+    </div>
+  </a>
+  <div class="links-list__meta">
+    <span class="links-list__posted">Posted: {{ item.posted }} ago</span>
+    {% if item.comments > 0 %}
+    <a class="links-list__comments links-list__comments--has-comments" href="comments.php?id={{ item.id }}">{{ item.comments }} comments</a>
+    {% endif %}
+    {% if item.comments == 0 %}
+    <span class="links-list__comments links-list__comments--no-comments">No comments</span>
+    {% endif %}
+  </div>
+</li>
