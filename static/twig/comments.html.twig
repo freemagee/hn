@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block content %}
+  {% if comments|length > 0 %}
+  <div class="comments">
+  {{ include("comments/story.html.twig") }}
+  {% for item in comments %}
+    {{ include("comments/item.html.twig") }}
+  {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if comments|length == 0 %}
+    {{ include("comments/error.html") }}
+  {% endif %}
+{% endblock %}
