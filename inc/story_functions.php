@@ -21,12 +21,13 @@ function makeHnList(array $source)
         for ($i = 0; $i < $limit; $i++) {
             $id    = $source[$i]['id'];
             $title = $source[$i]['title'];
+
             if (preg_match('/Ask HN:/', $title) === 1
-                || preg_match('/Show HN:/', $title) === 1
                 || preg_match('/Apply HN:/', $title) === 1
                 || preg_match('/Tell HN:/', $title) === 1
+                || isset($source[$i]['url']) === false
             ) {
-                $link            = $escapedUrl.'comments.php?id='.$id;
+                $link            = $escapedUrl.'comments/'.$id;
                 $hostDomainShort = 'news.ycombinator.com';
             } else {
                 $link            = $source[$i]['url'];
@@ -36,6 +37,7 @@ function makeHnList(array $source)
             }
 
             $delay = $source[$i]['time'];
+
             if (empty($source[$i]['descendants']) === false) {
                 $commentsCount          = $source[$i]['descendants'];
                 $output[$i]['comments'] = $commentsCount;

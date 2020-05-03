@@ -6,10 +6,12 @@ $loader   = new \Twig\Loader\FilesystemLoader(realpath(__DIR__).'/static/twig');
 $twig     = new \Twig\Environment(
     $loader,
     [
+        // 'debug'       => true,
         'cache'       => realpath(__DIR__).'/cache',
         'auto_reload' => true,
     ]
 );
+// $twig->addExtension(new \Twig\Extension\DebugExtension());
 $template = $twig->load('comments.html.twig');
 $_GET     = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
 $storyId  = $_GET['id'];

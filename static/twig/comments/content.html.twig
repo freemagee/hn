@@ -1,15 +1,13 @@
-<div class="comment__content">
 {% for content in item.content %}
   {% autoescape %}
     {% if content.type == "sentence" %}
-      <p>{{ content.text|raw }}</p>
+      <p class="mt-0 mb-4 last:mb-0 break-words">{{ content.text|raw }}</p>
     {% endif %}
     {% if content.type == "quote" %}
-      <p><em>{{ content.text|raw }}</em></p>
+      <p class="mt-0 mb-4 last:mb-0 break-words"><em class="italic text-grey-600">{{ content.text|raw }}</em></p>
     {% endif %}
     {% if content.type == "code" %}
-      {{ content.text|raw }}
+      <pre class="my-default p-2 bg-grey-200 border-code border-solid border-grey-300 overflow-scroll"><code class="font-code text-grey-700 leading-tight">{{ content.text|raw }}</code></pre>
     {% endif %}
   {% endautoescape %}
 {% endfor %}
-</div>

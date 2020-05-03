@@ -2,8 +2,13 @@
 
 {% block content %}
   {% if storiesList|length > 0 %}
-  <ul class="links-list">
+  <ul class="m-0 p-0 list-none">
+  {% set lastItem = false %}
   {% for item in storiesList %}
+    {% if loop.last %}
+        {% set lastItem = true %}
+    {% endif %}
+
     {{ include("stories-list/item.html.twig") }}
   {% endfor %}
   </ul>

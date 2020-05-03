@@ -1,3 +1,8 @@
-<h2 class="article-title">
-  <a href="{{ story.url }}" class="article-title__link">{{ story.title }}</a><span class="article-title__meta"><span class="article-title__source">{{ story.domain }}</span><span class="article-title__comments">{{ story.commentsCount }} comments</span></span>
+<h2 class="m-0 pb-4 leading-title">
+  <a href="{{ story.url }}" class="block no-underline text-grey-900 visited:text-grey-600 hover:text-orange focus:text-orange active:text-orange outline-none text-xl transition-colors duration-300">{{ story.title }}</a><span class="flex pt-1 items-center"><span class="pr-4 text-sm text-grey-600 italic font-normal border-0 border-r border-solid border-grey-500 break-all md:break-word">{{ story.domain }}</span><span class="pl-4 text-sm text-grey-600 font-normal">{{ story.commentsCount }} comments</span></span>
 </h2>
+{% if story.content|length > 0 %}
+  {% for content in story.content %}
+    <p class="mt-0 mb-4 last:mb-0 break-words text-grey-600 italic max-w-readable">{{ content.text|raw }}</p>
+  {% endfor %}
+{% endif %}

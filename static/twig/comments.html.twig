@@ -2,10 +2,10 @@
 
 {% block content %}
   {% if comments|length > 0 %}
-  <div class="comments">
+  <div class="p-default md:p-plus bg-white">
   {{ include("comments/story.html.twig") }}
   {% for item in comments %}
-    {{ include("comments/item.html.twig") }}
+    {{ include("comments/comment.html.twig") }}
   {% endfor %}
   </div>
   {% endif %}

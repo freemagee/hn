@@ -1,18 +1,17 @@
 /* eslint no-console: 0 */
 import gulp from "gulp";
-// Define Sass, Autoprefixer & Sourcemaps
-import sass from "gulp-sass";
-import sourcemaps from "gulp-sourcemaps";
 // POST CSS
 import postcss from "gulp-postcss";
 import cssnano from "cssnano";
 import fontMagician from "postcss-font-magician";
 import postcssPresetEnv from "postcss-preset-env";
+import tailwindcss from "tailwindcss";
 // Define other utilities
 import notify from "gulp-notify";
 import plumber from "gulp-plumber";
 import colors from "ansi-colors";
 import beeper from "beeper";
+import rename from "gulp-rename";
 import browserSync from "browser-sync";
 
 // Browsersync init
@@ -20,14 +19,22 @@ browserSync.create();
 // Common paths
 const basePaths = {
   src: "./src/",
-  dest: "./static/"
+  dest: "./static/",
+  root: "./",
 };
 const paths = {
   styles: {
-    src: `${basePaths.src}scss`,
-    files: `${basePaths.src}scss/**/*.scss`,
-    dest: `${basePaths.dest}css`
-  }
+    src: `${basePaths.src}tailwind`,
+    files: `${basePaths.src}tailwind/*.css`,
+    dest: `${basePaths.dest}css`,
+  },
+  tailwind: {
+    config: `${basePaths.root}tailwind.config.js`,
+  },
+  twig: {
+    templates: `${basePaths.dest}twig/**/*.html.*`,
+    html: `${basePaths.dest}twig/**/*.html`,
+  },
 };
 // Error handler
 // Heavily inspired by: https://github.com/mikaelbr/gulp-notify/issues/81#issuecomment-100422179
@@ -37,7 +44,7 @@ const reportError = function reportErrorFn(error) {
   notify({
     title: `Task Failed [${error.plugin}]`,
     message: messageOriginal,
-    sound: "Sosumi" // See: https://github.com/mikaelbr/node-notifier#all-notification-options-with-their-defaults
+    sound: "Sosumi", // See: https://github.com/mikaelbr/node-notifier#all-notification-options-with-their-defaults
   }).write(error);
 
   beeper(); // Beep 'sosumi' again
@@ -79,26 +86,28 @@ const changeEvent = (path, type) => {
 // =============================================================================
 function styles() {
   const sassConfig = {
-    outputStyle: "expanded"
+    outputStyle: "expanded",
   };
   const fontMagicianConfig = {
     variants: {
       Ubuntu: {
         "400": ["woff2"],
         "400 italic": ["woff2"],
-        "700": ["woff2"]
+        "700": ["woff2"],
       },
       "Ubuntu Mono": {
-        "400": ["woff2"]
-      }
+        "400": ["woff2"],
+      },
     },
     foundries: "google",
-    protocol: "https:"
+    protocol: "https:",
+    display: "swap",
   };
   const processors = [
+    tailwindcss(),
     fontMagician(fontMagicianConfig),
     postcssPresetEnv(),
-    cssnano()
+    cssnano(),
   ];
 
   // Taking the path from the paths object
@@ -108,27 +117,30 @@ function styles() {
       // Deal with errors, but prevent Gulp from stopping
       .pipe(
         plumber({
-          errorHandler: reportError
+          errorHandler: reportError,
         })
       )
-      .pipe(sourcemaps.init())
-      // Sass
-      .pipe(sass(sassConfig))
       // Process with PostCSS - autoprefix & minify
       .pipe(postcss(processors))
-      .pipe(sourcemaps.write())
+      // Rename file in stream
+      .pipe(
+        rename(function(path) {
+          // Updates the object in-place
+          path.basename = "styles";
+        })
+      )
       // Finally output a css file
       .pipe(gulp.dest(paths.styles.dest))
       // Inject into browser
       .pipe(
         browserSync.stream({
-          match: "**/*.css"
+          match: "**/*.css",
         })
       )
   );
 }
 const processStyles = gulp.series(styles);
-processStyles.description = "Convert SCSS to CSS";
+processStyles.description = "Pre-process CSS";
 gulp.task("processStyles", processStyles);
 
 // WATCH
@@ -136,13 +148,18 @@ gulp.task("processStyles", processStyles);
 function watchFiles() {
   gulp
     .watch(
-      paths.styles.files,
+      [
+        paths.styles.files,
+        paths.tailwind.config,
+        paths.twig.templates,
+        paths.twig.html,
+      ],
       {
-        delay: 300
+        delay: 300,
       },
       gulp.series("processStyles")
     )
-    .on("change", evt => {
+    .on("change", (evt) => {
       changeEvent(evt, "changed");
     });
 }
@@ -154,7 +171,7 @@ gulp.task("watch", watch);
 // =============================================================================
 const startServer = () => {
   browserSync.init({
-    proxy: "http://hn.localhost/"
+    proxy: "http://hn.localhost/",
   });
 };
 const serve = gulp.series(startServer);
@@ -170,7 +187,7 @@ gulp.task("develop", gulp.parallel(serve, watch));
 gulp.task(
   "default",
   () =>
-    new Promise(resolve => {
+    new Promise((resolve) => {
       const chalk = colors.white.bgBlue;
       const message = `${chalk("Action:")} for task information type gulp -T`;
 

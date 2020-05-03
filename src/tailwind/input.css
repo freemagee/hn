@@ -1,0 +1,9 @@
+@tailwind base;
+
+p > a {
+  @apply text-grey-800;
+}
+
+@tailwind components;
+
+@tailwind utilities;

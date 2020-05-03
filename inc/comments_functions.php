@@ -115,11 +115,19 @@ function processStory(array $story)
         $domain = 'news.ycombinator.com';
     }
 
+    // Ask HN stories have content to go along with the comments.
+    if (isset($story['content']) === true) {
+        $content = processContent($story['content']);
+    } else {
+        $content = [];
+    }
+
     return [
         'title'         => $story['title'],
         'url'           => $story['url'],
         'domain'        => $domain,
         'commentsCount' => $story['comments_count'],
+        'content'       => $content
     ];
 
 }//end processStory()
@@ -197,15 +205,19 @@ function processContent(string $content)
             // The sentence is not only a <pre>...</pre>.
             if (($preEnd + 6) !== strlen($sentence)) {
                 $followingSentence = substr($sentence, $preEnd);
-                $output[]          = [
+                // Now remove the HTML tags completely, they will be controlled by the template engine.
+                $strippedPre = strip_tags($pre);
+                $output[] = [
                     'type' => 'code',
-                    'text' => $pre,
+                    'text' => $strippedPre,
                 ];
                 $output[]          = processQuotes($followingSentence);
             } else {
+                // Now remove the HTML tags completely, they will be controlled by the template engine.
+                $strippedPre = strip_tags($pre);
                 $output[] = [
                     'type' => 'code',
-                    'text' => $pre,
+                    'text' => $strippedPre,
                 ];
             }
         } else {

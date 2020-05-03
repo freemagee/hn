@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="text-default md:text-plus" lang="en">
 
 <head>
   <meta charset="utf-8">
@@ -8,14 +8,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#ff6600">
   <link rel="shortcut icon" href="favicon.ico">
-  <link rel="apple-touch-icon" sizes="180x180" href="./static/img/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="./static/img/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="./static/img/favicon-16x16.png">
-  <link rel="stylesheet" href="./static/css/main.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/img/favicon-16x16.png">
+  <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
-<body>
-  <div class="container">
+<body class="m-0 p-0 bg-grey-400 font-base text-grey-900 leading-body">
+  <div class="container mx-auto md:mt-6 xl:max-w-xl">
     {{ include('header.html') }}
     {% block content %}{% endblock %}
     {{ include('footer.html') }}
