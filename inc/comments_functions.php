@@ -47,10 +47,10 @@ function validateSource(string $id)
     }
 
     // Should only get to here if comments json does not exist or $id can not be found inside json file. The resulting data is the same.
-    $newSource = getNewSource('https://node-hnapi.herokuapp.com/item/'.$id);
+    $getNewSource = getNewSource('https://node-hnapi.herokuapp.com/item/'.$id);
 
-    if ($newSource !== null) {
-        return $newSource;
+    if ($getNewSource !== null) {
+        return $getNewSource;
     }
 
     return [];
@@ -242,3 +242,30 @@ function processQuotes(string $text)
     return $output;
 
 }//end processQuotes()
+
+/**
+ * Contact API via curl
+ *
+ * @param  string $url url of the API
+ * @return string
+ */
+function getNewSource($url)
+{
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+    curl_setopt($ch, CURLOPT_FAILONERROR, true);
+    $data = curl_exec($ch);
+
+    if (curl_errno($ch) !== 0) {
+        $output = null;
+    } else {
+        $output = transformSource($data);
+    }
+
+    curl_close($ch);
+
+    return $output;
+
+}//end getNewSource()
