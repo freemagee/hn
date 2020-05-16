@@ -2,7 +2,7 @@
 
 {% block content %}
   {% if comments|length > 0 %}
-  <div class="p-default md:p-plus bg-white">
+  <div class="p-default md:p-plus bg-white dark:bg-grey-900">
   {{ include("comments/story.html.twig") }}
   {% for item in comments %}
     {{ include("comments/comment.html.twig") }}

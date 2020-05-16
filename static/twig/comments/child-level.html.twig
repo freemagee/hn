@@ -1,7 +1,7 @@
-<div class="mb-4 max-w-readable border-0 border-l border-solid border-grey-300" data-id="{{ item.id }}" data-level="{{ item.level }}" style="margin-left: calc({{ item.level }} * 0.5rem)">
+<div class="mb-4 max-w-readable border-0 border-l border-solid border-grey-300 dark:border-grey-600" data-id="{{ item.id }}" data-level="{{ item.level }}" style="margin-left: calc({{ item.level }} * 0.5rem)">
   <div class="mb-default">
-    <span class="inline-block px-2 mr-2 font-bold bg-grey-300">{{ item.user }}</span>
-    <span class="italic text-grey-600">{{ item.timeAgo }}</span>
+    <span class="inline-block px-2 mr-2 font-bold bg-grey-300 dark:bg-grey-600 dark:text-grey-200">{{ item.user }}</span>
+    <span class="italic text-grey-600 dark:text-grey-500">{{ item.timeAgo }}</span>
   </div>
   <div class="ml-2">
     {{ include("comments/content.html.twig") }}

@@ -1,7 +1,7 @@
-<span class="block md:inline text-grey-600 dark:text-grey-400 pr-2">Posted: {{ item.posted }} ago</span>
+<span class="block md:inline text-grey-600 dark:text-grey-500 pr-2">Posted: {{ item.posted }} ago</span>
 {% if item.comments > 0 %}
-<a class="no-underline text-grey-900 dark:text-grey-100 visited:text-grey-600 hover:text-orange focus:text-orange active:text-orange outline-none transition-colors duration-300" href="comments/{{ item.id }}">{{ item.comments }} comments</a>
+<a class="no-underline text-grey-900 dark:text-grey-400 visited:text-grey-600 hover:text-orange focus:text-orange active:text-orange outline-none transition-colors duration-300" href="comments/{{ item.id }}">{{ item.comments }} comments</a>
 {% endif %}
 {% if item.comments == 0 %}
-<span class="text-grey-600 dark:text-grey-400 line-through">No comments</span>
+<span class="text-grey-600 dark:text-grey-500 line-through">No comments</span>
 {% endif %}

@@ -4,6 +4,12 @@ p a {
   @apply text-grey-800;
 }
 
+@media (prefers-color-scheme: dark) {
+  p a {
+    @apply text-grey-400;
+  }
+}
+
 @tailwind components;
 
 @tailwind utilities;

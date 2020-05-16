@@ -1,7 +1,7 @@
-<div class="py-default max-w-readable border-0 border-t border-solid border-grey-400" data-id="{{ item.id }}" data-level="{{ item.level }}">
+<div class="py-default max-w-readable border-0 border-t border-solid border-grey-300 dark:border-grey-600" data-id="{{ item.id }}" data-level="{{ item.level }}">
   <div class="mb-default">
     <span class="inline-block px-2 mr-2 font-bold text-white bg-orange">{{ item.user }}</span>
-    <span class="italic text-grey-600">{{ item.timeAgo }}</span>
+    <span class="italic text-grey-600 dark:text-grey-500">{{ item.timeAgo }}</span>
   </div>
   {{ include("comments/content.html.twig") }}
 </div>
