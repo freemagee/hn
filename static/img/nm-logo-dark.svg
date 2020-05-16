@@ -1,0 +1,21 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: none;
+        stroke: #f60;
+        stroke-miterlimit: 10;
+        stroke-width: 25px;
+      }
+
+      .cls-1 {
+        fill-rule: evenodd;
+      }
+    </style>
+  </defs>
+  <title>nm-logo</title>
+  <g>
+    <polyline class="cls-1" points="95 305 95 95 305 95 305 305"/>
+    <line class="cls-2" x1="200" y1="190" x2="200" y2="305"/>
+  </g>
+</svg>

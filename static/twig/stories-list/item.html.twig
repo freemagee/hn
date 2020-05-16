@@ -1,14 +1,14 @@
-<li class="flex pt-4 px-4 md:pt-6 md:px-6 bg-white">
-  <div class="flex flex-bit-micro md:flex-bit box-border w-bit-micro h-bit-micro md:w-bit md:h-bit mr-4 md:mr-6 border-grey-400 border border-solid text-sm text-grey-800 justify-center items-center">{{ item.number }}</div>
+<li class="flex pt-4 px-4 md:pt-6 md:px-6 bg-white dark:bg-grey-800">
+  <div class="flex flex-bit-micro md:flex-bit box-border w-bit-micro h-bit-micro md:w-bit md:h-bit mr-4 md:mr-6 border-grey-400 border border-solid text-sm text-grey-800 dark:text-grey-300 justify-center items-center">{{ item.number }}</div>
   {% if lastItem %}
   <div class="flex-link pb-4 md:pb-6 ">
   {% else %}
   <div class="flex-link pb-4 md:pb-6 border-0 border-b border-solid border-grey-400">
   {% endif %}
-    <a class="no-underline text-grey-900 visited:text-grey-600 hover:text-orange focus:text-orange active:text-orange outline-none transition-colors duration-300" href="{{ item.link }}">
+    <a class="no-underline text-grey-900 dark:text-grey-200 visited:text-grey-600 hover:text-orange focus:text-orange active:text-orange outline-none transition-colors duration-300" href="{{ item.link }}">
       <div class="leading-title pb-1">
         <span class="block md:inline text-xl mr-2 pb-2 md:pb-0">{{ item.title }}</span>
-        <span class="text-base text-grey-600 italic break-all md:break-word">{{ item.host_domain }}</span>
+        <span class="text-base text-grey-600 dark:text-grey-400 italic break-all md:break-word">{{ item.host_domain }}</span>
       </div>
     </a>
     {{ include('stories-list/story-meta.html.twig') }}
