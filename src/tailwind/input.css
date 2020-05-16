@@ -1,6 +1,6 @@
 @tailwind base;
 
-p > a {
+p a {
   @apply text-grey-800;
 }
 
